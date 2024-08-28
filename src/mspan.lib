@@ -1,0 +1,13 @@
+import("stdfaust.lib");
+
+sdmx = si.bus(2) <: sums, difs
+    with{
+        sums = +/sqrt(2);
+        difs = -/sqrt(2);
+    };
+
+mspan(pp,rad) = _ <: mid,side
+    with{
+        mid(in) = in * (1-pp) + (in * cos(rad))* pp;
+        side(in) = in * sin(rad);
+    };

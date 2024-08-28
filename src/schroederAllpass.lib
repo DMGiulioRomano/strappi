@@ -1,0 +1,72 @@
+import("stdfaust.lib");
+
+//in = ba.pulsen(1,ma.SR)*.5;
+//tau = hslider("tau", 1, 1,1000,1);
+//g = hslider("fdbk", 0, -.9998, .9998, 0.0001) : si.smoo;
+//freq = hslider("freq-osc", 500, 1, 1000, 1): si.smoo;
+//g = 1/sqrt(2); // il massimo della quadratura tra i coefficienti allpass si ottiene con 1/sqrt(2)
+//t= ba.sec2samp(.07);
+
+//------------------------------------------
+//
+// DELAY IN FEEDBACK LOOP
+//fig. 1
+dflc(t,g) = (+ : @(t-1))~*(g) : mem;
+//process = dflc(t,g);
+//------------------------------------------
+//
+// ALL-PASS REVERBERATORS
+//fig. 2
+apf(t,g) = _ <: *(-g)+(dflc(t,g)*(1-(g*g)));
+//test
+//process =  _ <: dflc(t,g), apf(t,g);
+//process = apf(t,g);
+
+//------------------------------------------
+//
+// INCREASE OF ECHO DENSITY
+// fig. 3
+apfSeries(t,g,N) = seq(i,N,apf(t*((1/3)^i),g));
+//process = _ : apfSeries(t,g,5) <: si.bus(2);
+
+//------------------------------------------
+//
+// FURTHERS REFINEMENTS
+//fig. 5
+dflApf(t,g) = ((+ : @(t-1) :apfSeries(t,g,5)) ~ *(g)) : mem;
+apfNotExp(t,g) = _ <: dflApf(t,g)*(1-g^2) + _*(-g);
+//process = _ : mspan(1,deg*ma.PI/180) : _, dflApf(t,g) : sdmx;
+//deg = 0-hslider("deg", 0, -180, 180, 1);
+//------------------------------------------
+//
+// COMB FILTER APPROACH
+//fig. 6
+
+//  t1, t2, t3, t4 between 30, 45 msecs ---- TAU COMB
+//  g1 , g2, g3, g4 adjusted according to the formula T = 3t(nth)/(-log|g(nth)|) --- GAIN COMB
+//
+//  t5, t6 between 5 and 1.7 msecs ----- TAU ALL-PASS
+//  g5, g6 better to keep them at 0.7 ----- GAIN ALL-PASS
+
+// reverberation time
+gainRev = .5;
+T = 6;
+tau(x) = ba.sec2samp(x);
+t4 = tau(0.0424);
+t3 = tau(0.0416);
+t2 = tau(0.036);
+t1 = tau(0.0329);
+gNth(tNth,tSec) = 10^(((-3*tNth)/(T*ma.SR)));
+combApf(tSec,gainRev) = _ <: _ +
+                (dflc(t1,gNth(t1,tSec)),
+                dflc(t2,gNth(t2,tSec)),
+                dflc(t3,gNth(t3,tSec)),
+                dflc(t4,gNth(t4,tSec)) 
+                :> apfSeries(0.004,.7,2)*gainRev);
+// test
+//process =  _ : mspan(1,deg*ma.PI/180) : _, combApf : sdmx;
+combApf2 = _ <: (dflc(t1,gNth(t1)),
+                dflc(t2,gNth(t2)),
+                dflc(t3,gNth(t3)),
+                dflc(t4,gNth(t4)) 
+                :> apfSeries(0.004,.7,2)*gainRev);
