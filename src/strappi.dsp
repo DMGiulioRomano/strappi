@@ -54,6 +54,6 @@ process = input : inputMid <:  (si.bus(2):par(i,2,*(.3))),
                     chord2(mappingQfilter5(1.5),noiseFbkBank2(fDev,.8,.01,0.5),-90,makeMidSide4,1,.3) : lrsomma),
                 (chord2(mappingQfilter6(1.7),noiseFbkBank2(fDev3,1.4,0.1,0),90,makeMidSide4,4,.3),
                     chord2(mappingQfilter6(1.5),noiseFbkBank2(fDev,1.4,0.05,0),-269,makeMidSide4,4,.3) : lrsomma)
-                : par(i,2,*(checkbox("[0]input")):*(volumePlus)), par(i,2,*(checkbox("1")):*(volumePlus)), par(i,2,*(checkbox("2")):*(volumePlus));/*:>  si.bus(2) ;*/
+                : par(i,2,*(checkbox("[0]input")):*(volumePlus)), par(i,2,*(checkbox("1")):*(volumePlus)), par(i,2,*(checkbox("2")):*(volumePlus));
 volumePlus = nentry("vol",1,1,9,0.1):si.smoo;
 */
