@@ -1,0 +1,677 @@
+\documentclass[tikz, a3paper, landscape, border=0]{standalone}
+\usetikzlibrary{calc}
+\usepackage{comandi}
+\usepackage{musicography}
+
+\begin{document}
+\begin{tikzpicture}
+
+%======================================================================
+% ------------------------------ funzione per ottenere x e y di un nodo ----------------------------------------
+\makeatletter
+\newcommand{\gettikzxy}[3]{%
+  \tikz@scan@one@point\pgfutil@firstofone#1\relax
+  \edef#2{\the\pgf@x}%
+  \edef#3{\the\pgf@y}%
+}
+\makeatother
+%======================================================================
+
+
+
+
+
+
+
+%======================================================================
+% ------------------------------ preparazione foglio di lavoro ----------------------------------------------------
+\def\paperHeight{29.7}
+\def\paperWidth{42}
+\fill[white] (0,0) rectangle ++ (\paperWidth,\paperHeight);
+% Imposta la griglia del foglio A3 come riferimento (42x29.7 cm)
+%\draw[step=.1cm, gray, very thin] (0, 0) grid (\paperWidth, \paperHeight); % Griglia per visualizzare lo spazio A3
+%\draw[step=1cm, black, very thin] (0, 0) grid (\paperWidth, \paperHeight); % Griglia per visualizzare lo spazio A3
+%======================================================================
+
+
+
+%======================================================================
+
+
+%======================================================================
+
+
+
+
+
+
+
+
+
+%======================================================================
+% ------------------------------ definizione variabili per sezione centrale del brano -----------------------
+\def\cardHeight{5} 
+\def\cardwidth{3} 
+\def\cardSpacing{1.5}
+\def\cardOffset{-.75}
+\def\cardY{\paperHeight/2-\cardHeight/2}
+% ------------------
+\def\battenteheight{.25}
+\def\battentewidth{1.3}
+% ------------------
+\def\pointWidth{2.3pt}
+\def\lineWidth{1.3pt}
+% ------------------
+\def\arrowWidth{7pt}
+\def\arrowLength{10pt}
+%======================================================================
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	carte 	INTRODUZIONE	------------------------------------------------
+%
+\foreach \i  in {1,...,3}{
+        		\edef\cardname{card\i}
+        		\edef\cardin{in\i}
+        		\edef\cardout{out\i}
+        		\card{-3+\cardSpacing*\cardwidth*\i}{\cardY+10}{\cardwidth}{\cardHeight}{\cardname}{\cardin}{\cardout}
+}
+%======================================================================
+
+
+
+
+
+
+
+
+%====================================================================
+% -----------------------------	carte 	CENTRALI	----------------------------------------------------
+%
+    	\foreach \i [evaluate=\i as \cont using int(\i-3)] in {4,...,11} {
+        % Genera i rettangoli con nomi incrementali card1, card2, etc.
+        		\edef\cardname{card\i}
+        		\edef\cardin{in\i}
+        		\edef\cardout{out\i}
+        		\card{\cardOffset+\cardSpacing*\cardwidth*\cont}{\cardY}{\cardwidth}{\cardHeight}{\cardname}{\cardin}{\cardout}
+    	}
+\card{\cardOffset+\cardSpacing*\cardwidth*3}{\cardY-\cardHeight-2.5}{\cardwidth}{\cardHeight}{card6bis}{in6bis}{out6bis}
+%====================================================================
+
+
+
+
+
+
+
+%====================================================================
+% -----------------------------	carte 	FINALE		----------------------------------------------------
+%
+\card{24+\cardSpacing*\cardwidth*3}{\cardY-10}{\cardwidth}{\cardHeight}{card12}{in12}{noout}
+%====================================================================
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione FRECCE carte introduzione -------------------------------
+%	
+	\foreach \i [evaluate=\i as \next using int(\i+1)] in {1,...,2}{
+        		\edef\cardin{in\next}
+        		\edef\cardout{out\i}
+		\edef\a{a\i}
+		\edef\b{b\i}
+		\edef\c{c\i}	
+		\draw[arrows = {-Kite[black, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth]  (\cardout.center) -- (\cardin.center);
+	}
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione NODI card 3  ---------------------------------------------------------
+%	
+    % Definizione di punti di riferimento
+    \coordinate (Z) at ($(out3.center) + (1,0)$);
+    \coordinate (A) at ($(Z) - (0,\cardHeight/1.2)$);
+    \coordinate (B) at ($(A) - (\cardwidth*4.2,0)$);
+    \gettikzxy{(B)}{\bx}{\by}
+    \gettikzxy{(in4)}{\inx}{\iny}
+    \coordinate (C) at (\bx,\iny);
+    \draw[arrows = {-Kite[black, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt] 	(out3.center) -- (Z) -- (A)-- (B) -- (C) -- node[pos=.3, name=a3] {} node[pos=0.55, name=b3] {} node[pos=0.7, name=c3] {}(in4.center);
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione FRECCE e NODI carte -------------------------------------------
+%
+% ----------------------------	CARD	4
+\def\i{4}
+\def\nexti{5}
+\draw[arrows = {-Kite[black, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]  (out\i.center) --  (in\nexti.center)
+	node[pos =0.3,circle, draw=black, inner sep=0mm, line width = \pointWidth] (a\i) {};
+% ----------------------------	CARD	5
+\def\i{5}
+\def\nexti{6}
+\draw[arrows = {-Kite[black, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]  (out\i.center) -- (in\nexti.center)
+	node[pos =0.2,circle, draw, fill=black, inner sep=0mm, line width = \pointWidth] (a\i) {}
+        	node[pos=.45, inner sep=0mm, line width = \pointWidth] (b\i) {}
+        	node[pos=.65, inner sep=0mm, line width = \pointWidth] (c\i) {};
+% ----------------------------	CARD	6
+\def\i{6}
+\def\nexti{7}
+\draw[arrows = {-Kite[black, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth]  (out\i.center) -- (in\nexti.center)
+	node[pos =0.2,circle, draw, fill=black, inner sep=0mm, line width = \pointWidth] (a\i) {}
+        	node[pos=.4,inner sep=0mm, line width = \pointWidth] (b\i) {}
+        	node[pos=.6, inner sep=0mm, line width = \pointWidth] (c\i) {};
+% ----------------------------	CARD	7
+\def\i{7}
+\def\nexti{8}
+\draw[arrows = {-Kite[black, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth]  (out\i.center) -- (in\nexti.center);
+% ----------------------------	CARD	8
+\def\i{8}
+\def\nexti{9}
+\draw[arrows = {-Kite[black, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth]  (out\i.center) -- (in\nexti.center)
+	node[pos =0.2,circle, draw, fill=black, inner sep=0mm, line width = \pointWidth] (a\i) {}
+        	node[pos=.4,circle, draw, fill=black, inner sep=0mm, line width = \pointWidth] (b\i) {}
+        	node[pos=.7,inner sep=0mm, line width = \pointWidth] (c\i) {};
+% ----------------------------	CARD	9
+\def\i{9}
+\def\nexti{10}
+\draw[arrows = {-Kite[black, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth]  (out\i.center) -- (in\nexti.center)
+	node[pos =0.2,circle, draw, fill=black, inner sep=0mm, line width = \pointWidth] (a\i) {}
+        	node[pos=.6,inner sep=0mm, line width = \pointWidth] (b\i) {};
+% ----------------------------	CARD	10
+\def\i{10}
+\def\nexti{11}
+\draw[arrows = {-Kite[black, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth]  (out\i.center) -- (in\nexti.center);
+% ----------------------------	CARD	11
+\gettikzxy{(out11)}{\outx}{\outy}
+\gettikzxy{(in11)}{\inx}{\iny}
+\gettikzxy{(card12)}{\cardx}{\cardy}
+\gettikzxy{(card10)}{\cardtenx}{\cardteny}
+
+\coordinate (A) at (\cardx + 1cm,\outy);
+\coordinate (B) at ($(A) - (0,\cardHeight*1.2)$);
+\gettikzxy{(B)}{\bx}{\by}
+\coordinate (C) at (\cardtenx,\by);
+\coordinate (D) at (\cardtenx,\cardy);
+
+\draw[arrows = {-Kite[black, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth,  rounded corners=10pt] 	(out11.center) -- node[pos =0.3,circle, draw, fill=black, inner sep=0mm, line width = \pointWidth] (a11) {} (A) -- (B) -- (C) -- node[pos =0.8,circle, draw, fill=black, inner sep=0mm, line width = \pointWidth] (b11) {} (D) -- (in12.center);
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione campane		-------------------------------------------------------
+%
+\campana{0}{0}{.8}{capovolta}{libera}{card1}
+\campana{0}{0}{.8}{capovolta}{libera}{card2}
+\campana{0}{0}{.8}{ordinaria}{bloccata}{card3}
+\campana{0}{0}{.8}{ordinaria}{bloccata}{card4}
+\campana{0}{0}{.8}{ordinaria}{libera}{card5}
+\campana{0}{0}{.8}{ordinaria}{libera}{card6}
+\campanaAcc{0}{0}{.8}{bloccata}{card6bis}
+\campanaAcc{0}{0}{.8}{libera}{card7}
+\campanaAcc{0}{0}{.8}{libera}{card8}
+\campanaAcc{0}{0}{.8}{libera}{card9}
+\campanaAcc{0}{0}{.8}{libera}{card10}
+\campanaAcc{0}{0}{.8}{libera}{card11}
+\campana{0}{0}{.8}{ordinaria}{bloccata}{card12}
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione battenti		-------------------------------------------------------
+%
+% ----------------------------	CARD	1
+\updateBattentePosition{0.1}{.3}
+\battente{card1}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{60}
+\strofinato{card1}{.65}{.1}{-1.15}{.7}
+% ----------------------------	CARD	2
+\updateBattentePosition{0}{.53}
+\battente{card2}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{0}
+\draw[arrows = {-Latex}, double distance=1.2pt] ($(card2) + (0,1.6)$) -- ($(card2) + (0,.63)$);
+% ----------------------------	CARD	3
+\updateBattentePosition{0}{.32}
+\battente{card3}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{60}
+\strofinato{card3}{.8}{.1}{-1.45}{.7}
+% ----------------------------	CARD	4
+\updateBattentePosition{-.35}{.32}
+\battente{card4}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{45}
+% ----------------------------	CARD	5
+\updateBattenteAccPosition{0}{.53}
+\battenteAcc{card5}{\battenteStartAccX}{\battenteStartAccY}{\battentewidth}{\battenteheight}{aperto}{0}
+\draw[arrows = {-Latex}, double distance=1.2pt] ($(card5) + (0,1.6)$) -- ($(card5) + (0,.63)$);
+% ----------------------------	CARD	6
+\updateBattentePosition{-.45}{.0}
+\battente{card6}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{0}
+% ----------------------------	CARD	6bis
+\updateBattentePosition{-.35}{.32}
+\battente{card6bis}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{45}
+% ----------------------------	CARD	7
+\updateBattentePosition{0}{.32}
+\battente{card7}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{60}
+\strofinato{card7}{.8}{.1}{-1.45}{.7}
+% ----------------------------	CARD	8
+\updateBattentePosition{-.35}{.32}
+\battente{card8}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{45}
+% ----------------------------	CARD	9
+\updateBattentePosition{0}{.32}
+\battente{card9}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{60}
+\strofinato{card9}{.8}{.1}{-1.45}{.7}
+% ----------------------------	CARD	10
+\updateBattentePosition{-.45}{.0}
+\battente{card10}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{0}
+% ----------------------------	CARD	11
+\updateBattentePosition{-.35}{.32}
+\battente{card11}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{45}
+% ----------------------------	CARD	12
+\updateBattentePosition{0.36}{-.1}
+\battente{card12}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{80}
+\draw[line width = .8pt] ($(card12)+(-.8,+.4)$) -- ($(card12)+(+.8,+.4)$);
+\draw[->]   ($(card12)+(-.5,-.4)$) to[out=-30, in=200, looseness=1] ($(card12)+(.6,-.4)$);
+\campanaSbiadita{0}{0}{.8}{ordinaria}{bloccata}{card12}
+%======================================================================
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione dinamiche -------------------------------------------------------------
+\def\dinamicY{\cardHeight/2.7}
+% ----------------------------	SEPARATORE
+\newcommand{\separatore}[3]{
+\draw[draw=black, line width = \lineWidth] ($(#1) - (0, #3)$) -- ($(#2) - (0,#3)$);
+\coordinate (midPoint) at ($(#1) - (-\cardwidth/2, #3 + #3/4)$);
+}
+% ----------------------------	CARD	1
+\separatore{in1}{out1}{\cardHeight/4}
+    \node at ($(card1) - (0, \dinamicY)$) {\Large \textit{mf} -- \textit{ff}};
+% ----------------------------	CARD	2
+\separatore{in2}{out2}{\cardHeight/4}
+    \node at ($(card2) - (0, \dinamicY)$) {\Large \textit{mf} };
+% ----------------------------	CARD	3
+\separatore{in3}{out3}{\cardHeight/4}
+    \node at ($(card3) - (0, \dinamicY)$) {\Large \textit{mf} -- \textit{f}};
+% ----------------------------	CARD	4
+\separatore{in4}{out4}{\cardHeight/4}
+    \node at ($(card4) - (0, \dinamicY)$) {\Large \textit{mp} -- \textit{mf}};
+% ----------------------------	CARD	5
+\separatore{in5}{out5}{\cardHeight/4}
+    \node at ($(card5) - (0, \dinamicY)$) {\Large \textit{pp} -- \textit{mf}};
+% ----------------------------	CARD	6
+\separatore{in6}{out6}{\cardHeight/4}
+\coordinate (A) at ($(card6) - (\cardwidth/4, \dinamicY)$);
+\coordinate (B) at ($(A) + (\cardwidth/2.5, \cardHeight/25)$);
+\coordinate (C) at ($(A) + (\cardwidth/2.5, -\cardHeight/25)$);
+\coordinate (D) at ($(card6) - (-\cardwidth/4,\dinamicY)$);
+\node[draw=black, circle,  line width = .6pt, inner sep=1pt] at (A) {};
+    \draw[thick] ($(A)+(.04,0)$) -- (B);  % Linea superiore del crescendo
+    \draw[thick] ($(A)+(.04,0)$) -- (C); % Linea inferiore del crescendo
+	\node at (D) {\Large \textit{f}};
+% ----------------------------	CARD	6bis
+\coordinate (A) at ($(card6bis) - (\cardwidth/4, \dinamicY)$);
+\coordinate (B) at ($(A) + (\cardwidth/2.5, \cardHeight/25)$);
+\coordinate (C) at ($(A) + (\cardwidth/2.5, -\cardHeight/25)$);
+\coordinate (D) at ($(card6bis) - (-\cardwidth/4,\dinamicY)$);
+\node[draw=black, circle,  line width = .6pt, inner sep=1pt] at (A) {};
+    \draw[thick] ($(A)+(.04,0)$) -- (B);  % Linea superiore del crescendo
+    \draw[thick] ($(A)+(.04,0)$) -- (C); % Linea inferiore del crescendo
+	\node at (D) {\Large \textit{f}};
+\separatore{in6bis}{out6bis}{\cardHeight/4}
+
+% ----------------------------	CARD	7
+\separatore{in7}{out7}{\cardHeight/4}
+\coordinate (A) at ($(card7) - (\cardwidth/4, \dinamicY)$);
+\coordinate (B) at ($(A) + (\cardwidth/2.5, \cardHeight/25)$);
+\coordinate (C) at ($(A) + (\cardwidth/2.5, -\cardHeight/25)$);
+\coordinate (D) at ($(card7) - (-\cardwidth/4,\dinamicY)$);
+\node at ($(A)-(0,.05)$) {\Large\textit{p}};
+    \draw[thick] ($(A)+(.2,0)$) -- (B);  % Linea superiore del crescendo
+    \draw[thick] ($(A)+(.2,0)$) -- (C); % Linea inferiore del crescendo
+	\node at (D) {\Large \textit{f}};
+% ----------------------------	CARD	8
+\separatore{in8}{out8}{\cardHeight/4}
+\coordinate (A) at ($(card8) - (0, \dinamicY)$);
+\node at (A) {\Large\textit{mf}};
+% ----------------------------	CARD	9
+\separatore{in9}{out9}{\cardHeight/4}
+\coordinate (A) at ($(card9) - (\cardwidth/3.5, \dinamicY)$);
+\coordinate (B) at ($(A) + (\cardwidth/2.4, \cardHeight/25)$);
+\coordinate (C) at ($(A) + (\cardwidth/2.4, -\cardHeight/25)$);
+\coordinate (D) at ($(card9) - (-\cardwidth/3.5,\dinamicY)$);
+\node at ($(A)-(0,.05)$) {\Large \textit{mp}};
+    \draw[thick] ($(A)+(.4,0)$) -- (B);  % Linea superiore del crescendo
+    \draw[thick] ($(A)+(.4,0)$) -- (C); % Linea inferiore del crescendo
+	\node at (D) {\Large \textit{sfz}};
+% ----------------------------	CARD	10
+\separatore{in10}{out10}{\cardHeight/4}
+    \node at ($(card10) - (0, \dinamicY)$) {\Large \textit{mp} -- \textit{f}};
+% ----------------------------	CARD	11
+\separatore{in11}{out11}{\cardHeight/4}
+    \node at ($(card11) - (0, \dinamicY)$) {\Large \textit{p} -- \textit{ff}};
+% ----------------------------	CARD	12
+\coordinate (out12) at ($(in12) + (\cardwidth,0)$);
+\separatore{in12}{out12}{\cardHeight/4}
+    \node at ($(card12) - (0, \dinamicY)$) {\Large \textit{pp} -- \textit{p}};
+
+
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione durate -------------------------------------------------------------
+% ----------------------------	CARD	1
+\separatore{in1}{out1}{-\cardHeight/3}
+\node at (midPoint) (a) {60 -- 100 s};
+% ----------------------------	CARD	2
+% ----------------------------	CARD	3
+\separatore{in3}{out3}{-\cardHeight/3}
+\node at (midPoint) (a) {90 -- 140 s};
+% ----------------------------	CARD	4
+\separatore{in4}{out4}{-\cardHeight/3}
+\node at (midPoint) (a) {eps -- 2 s};
+% ----------------------------	CARD	5
+%\separatore{in5}{out5}{-\cardHeight/3}
+% ----------------------------	CARD	6
+\separatore{in6}{out6}{-\cardHeight/3}
+\node at (midPoint) (a) {1 -- 10 s};
+% ----------------------------	CARD	6bis
+\separatore{in6bis}{out6bis}{-\cardHeight/3}
+\node at (midPoint) (a) {4 -- 15 s};
+% ----------------------------	CARD	7
+\separatore{in7}{out7}{-\cardHeight/3}
+\node at (midPoint) (a) {3 -- 9 s};
+% ----------------------------	CARD	8
+\separatore{in8}{out8}{-\cardHeight/3}
+\node at (midPoint) (a) {eps -- 4 s};
+% ----------------------------	CARD	9
+\separatore{in9}{out9}{-\cardHeight/3}
+\node at (midPoint) (a) {4 -- 12 s};
+% ----------------------------	CARD	10
+\separatore{in10}{out10}{-\cardHeight/3}
+\node at (midPoint) (a) {eps -- 4 s};
+% ----------------------------	CARD	11
+\separatore{in11}{out11}{-\cardHeight/3}
+\node at (midPoint) (a) {eps -- 3 s};
+% ----------------------------	CARD	12
+\separatore{in12}{out12}{-\cardHeight/3}
+\node at (midPoint) (a) {10 -- 30 s};
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione ribattuti -------------------------------------------------------------
+% ----------------------------	CARD	6
+\coordinate (B) at  ($(card6) - (\cardwidth/14,\cardHeight/5)$);
+\begin{scope}[rotate=20]
+    \draw (B) -- ++(\cardwidth/7,0);
+\end{scope}
+\begin{scope}[rotate=20]
+    \coordinate (C) at ($(B) + (\cardwidth/80,\cardHeight/80)$);
+    \draw (C) -- ++(\cardwidth/7,0);
+\end{scope}
+\begin{scope}[rotate=20]
+    \coordinate (C) at ($(B) + (\cardwidth/45,\cardHeight/40)$);
+    \draw (C) -- ++(\cardwidth/7,0);
+\end{scope}
+% ----------------------------	CARD	6bis
+\coordinate (B) at  ($(card6bis) - (\cardwidth/14,\cardHeight/5)$);
+\begin{scope}[rotate=20]
+    \draw (B) -- ++(\cardwidth/7,0);
+\end{scope}
+\begin{scope}[rotate=20]
+    \coordinate (C) at ($(B) + (\cardwidth/80,\cardHeight/80)$);
+    \draw (C) -- ++(\cardwidth/7,0);
+\end{scope}
+\begin{scope}[rotate=20]
+    \coordinate (C) at ($(B) + (\cardwidth/45,\cardHeight/40)$);
+    \draw (C) -- ++(\cardwidth/7,0);
+\end{scope}
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione FRECCE superiori --------------------------------------------------
+%
+% ----------------------------	CARD 4 => CARD 4
+\def\offsetHeight{1.6};
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]   (a4.center) %to[out=77, in=100, looseness=3] (c3.center); 
+-- ($(a4.center)+(0,\cardHeight-\offsetHeight)$) -- ($(c3.center)+(0,\cardHeight-\offsetHeight)$) -- (c3.center);
+% ----------------------------	CARD 5 => CARD 4
+\def\offsetHeight{1.2};
+\coordinate (cardFiveArrowLeft) at ($(b3.center)+(0,\cardHeight - \offsetHeight)$);
+\coordinate (cardFiveArrowRight) at ($(a5.center)+(0,\cardHeight-\offsetHeight)$);
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]   (a5.center) %to[out=80, in=100, looseness=2] (b3.center); 
+-- (cardFiveArrowRight) -- (cardFiveArrowLeft) -- (b3.center);
+% ----------------------------	CARD 6 => CARD 6
+\def\offsetHeight{1.6};
+\coordinate (cardSixArrowLeft) at ($(c5.center)+(0,\cardHeight-\offsetHeight)$);
+\coordinate (cardSixArrowRight) at ($(a6.center)+(0,\cardHeight-\offsetHeight)$);
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]   (a6.center) %to[out=77, in=100, looseness=3] (c5.center); 
+-- (cardSixArrowRight) -- (cardSixArrowLeft) -- (c5.center);
+% ----------------------------	CARD 8 => CARD 7
+\def\offsetHeight{1.6};
+\coordinate (cardEightArrowLeft) at ($(c6.center)+(0,\cardHeight-\offsetHeight)$);
+\coordinate (cardEightArrowRight) at ($(a8.center)+(0,\cardHeight-\offsetHeight)$);
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]   (a8.center) %to[out=80, in=100, looseness=2] (c6.center); 
+-- (cardEightArrowRight) -- (cardEightArrowLeft) -- (c6.center);
+% ----------------------------	CARD 11 => CARD 10
+\def\offsetHeight{1.6};
+\coordinate (cardTenArrowLeft) at ($(b9.center)+(0,\cardHeight-\offsetHeight)$);
+\coordinate (cardTenArrowRight) at ($(a11.center)+(0,\cardHeight-\offsetHeight)$);
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]   (a11.center) -- (cardTenArrowRight) -- (cardTenArrowLeft) -- (b9.center);
+%======================================================================
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ %======================================================================
+% -----------------------------	definizione FRECCE inferiori ----------------------------------------------------
+% ----------------------------	CARD 8 => CARD 6bis
+\coordinate (A) at ($(a5)-(0,\cardHeight*2.15)$);
+    \gettikzxy{(b8)}{\bx}{\by}
+    \gettikzxy{(out6bis)}{\outx}{\outy}
+    \gettikzxy{(card7)}{\cardx}{\cardy}
+    \gettikzxy{(out6bis)}{\outx}{\outy}
+    \gettikzxy{(A)}{\ax}{\ay}
+    \gettikzxy{(in6bis)}{\inx}{\iny}
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]  (b8.center) -- node[pos =0.4375,circle, draw, fill=black, inner sep=0mm, line width = \pointWidth] (a6bis) {} ( \bx,\outy) -- (\cardx, \outy)  -- (\cardx, \ay) -- (A) -- (\ax, \iny) -- (in6bis.center);
+% ----------------------------	CARD 6bis => CARD 7
+    \gettikzxy{(b6)}{\bx}{\by}
+    \gettikzxy{(out6bis)}{\outx}{\outy}
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]   (out6bis.center) -- (\bx,\outy) -- (b6.center);
+% ----------------------------	CARD 8 => CARD 6
+    \gettikzxy{(c6)}{\cx}{\cy}
+    \gettikzxy{(a6bis)}{\abisx}{\abisy}
+    \gettikzxy{(a6)}{\ax}{\ay}
+\coordinate (A) at (\cx,\abisy);
+\coordinate (B) at (\ax,\abisy);
+    \gettikzxy{(c5)}{\bx}{\by}
+\coordinate (C) at (\bx,\abisy);    
+\draw[line width = \lineWidth]  (a6bis)  -- (A);
+\draw[line width = \lineWidth] ($(A) - (0,.0228cm)$) arc[start angle=-180, end angle=0, radius=-.3];
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]  (B) -- (C)-- (c5.center); 
+% ----------------------------	CARD 9 => CARD 9
+\def\offsetHeight{.8};
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]   (a9.center) -- ($(a9)-(0,\cardHeight/2+\offsetHeight)$) -- ($(c8)-(0,\cardHeight/2+\offsetHeight)$) -- (c8.center);
+% ----------------------------	CARD 11 => CARD 10
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]   (a11.center) %to[out=-80, in=-100, looseness=1.5] (b9.center);
+ -- ($(a11)-(0,\cardHeight/2+\offsetHeight)$) -- ($(b9)-(0,\cardHeight/2+\offsetHeight)$) -- (b9.center);
+% ----------------------------	CARD 11 => CARD 3
+    \gettikzxy{(b11)}{\bx}{\by}
+    \gettikzxy{(out7)}{\outx}{\outy}
+\coordinate (A) at (\outx,\by);
+\coordinate (B) at ($(A)-(0,\cardHeight/2)$);
+    \gettikzxy{(B)}{\Bx}{\By}
+    \gettikzxy{(a3)}{\ax}{\ay}
+\coordinate (C) at (\ax,\By);
+\draw[arrows = {-Kite[open, width=\arrowWidth, length=\arrowLength, line width = \lineWidth]},line width = \lineWidth, rounded corners=10pt]   (b11.center)  -- (A) -- (B) -- (C) -- (a3.center); 
+%======================================================================
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	riempio i nodi ----------------------------------------------------
+
+    \fill[black] (a4) circle[radius=\pointWidth];
+    \fill[black] (a5) circle[radius=\pointWidth];
+    \fill[black] (a6) circle[radius=\pointWidth];
+    \fill[black] (a8) circle[radius=\pointWidth];
+    \fill[black] (b8) circle[radius=\pointWidth];
+    \fill[black] (a9) circle[radius=\pointWidth];
+    \fill[black] (a11) circle[radius=\pointWidth];
+    \fill[black] (b11) circle[radius=\pointWidth];
+    \fill[black] (a6bis) circle[radius=\pointWidth];
+%======================================================================
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	sezioni --------------------------------------------------------------------------------
+
+% ----------------------------	CARD 4 ~ CARD 5	SEZIONE A 
+\coordinate (upL) at ($(cardFiveArrowLeft)+(-.2cm,.6cm)$);
+\coordinate (upR) at ($(cardFiveArrowRight)+(.2cm,.6cm)$);
+\node[right,] at (upL) {\Large [ A ]};
+\coordinate (newUpL) at ($(upL) + (1.2cm, 0)$); 
+    \gettikzxy{(upL)}{\upLx}{\upLy}
+    \gettikzxy{(upR)}{\upRx}{\upRy}
+\coordinate (downL) at ($(\upLx,\paperHeight)-(0,\upLy)$);
+\coordinate (downR) at ($(\upRx,\paperHeight)-(0,\upRy)$);
+\draw[dashed, line width = 1pt, rounded corners=10pt] (newUpL) -- (upR) -- (downR) -- (downL) -- (upL);
+% ----------------------------	CARD 5 ~ CARD 8	SEZIONE B
+\coordinate (upL) at ($(cardSixArrowLeft)+(-.2cm,1cm)$);
+\coordinate (upR) at ($(cardEightArrowRight)+(.5cm,1cm)$);
+\node[right,] at (upL) {\Large [ B ]};
+\coordinate (newUpL) at ($(upL) + (1.2cm, 0)$); 
+    \gettikzxy{(upL)}{\upLx}{\upLy}
+    \gettikzxy{(upR)}{\upRx}{\upRy}
+\coordinate (downL) at ($(\upLx,\paperHeight)-(0,\upLy)$);
+\coordinate (downR) at ($(\upRx,\paperHeight)-(0,\upRy)$);
+\draw[dashed, line width = 1pt, rounded corners=10pt] (newUpL) -- (upR) -- (downR) -- (downL) -- (upL);
+% ----------------------------	CARD 10 ~ CARD 11	SEZIONE C
+\coordinate (upL) at ($(cardTenArrowLeft)+(-.3cm,1cm)$);
+\coordinate (upR) at ($(cardTenArrowRight)+(.4cm,1cm)$);
+\node[right,] at (upL) {\Large [ C ]};
+\coordinate (newUpL) at ($(upL) + (1.2cm, 0)$); 
+    \gettikzxy{(upL)}{\upLx}{\upLy}
+    \gettikzxy{(upR)}{\upRx}{\upRy}
+\coordinate (downL) at ($(\upLx,\paperHeight)-(0,\upLy)$);
+\coordinate (downR) at ($(\upRx,\paperHeight)-(0,\upRy)$);
+\draw[dashed, line width = 1pt, rounded corners=10pt] (newUpL) -- (upR) -- (downR) -- (downL) -- (upL);
+
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+\end{tikzpicture}
+\end{document}
