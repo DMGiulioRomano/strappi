@@ -77,7 +77,7 @@ volumePlus = nentry("vol",1,1,9,0.1):si.smoo;
 
 
 // only processed part
-process=input <:(inputMid <: ampAcuto, ampGrave, _, bpBankPeakEnv: multichord) : interruttori_noInput :> si.bus(2) : par(i,2,LookaheadLimiter(1,.01,0.1)) : par(i,2, fi.dcblockerat(16));
+process=input <:(inputMid <: ampAcuto, ampGrave, _, bpBankPeakEnv: multichord) : interruttori_noInput :> si.bus(2) :par(i,2, fi.dcblockerat(16)): par(i,2,LookaheadLimiter(1,.01,0.1)) :output;
 
 
 //process=input <: si.bus(2), (inputMid <: ampAcuto, ampGrave, _, bpBankPeakEnv: multichord) : interruttori : ideOut ;

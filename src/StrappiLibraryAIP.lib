@@ -10,13 +10,14 @@ declare license "MIT";
 mainPatch(x) = hgroup("Main",x);
 group(x) = hgroup("INPUT-general",x);
 subgroup(x) = hgroup("[0]input",x);
+subgroup2(x) = hgroup("[2]output",x);
 //======================================================================================================
 
 
 
 
 //======================================================================================================
-//                                          INPUT
+//                                          INPUT - OUTPUT
 
 input = par(i,2,(_ <: attach(_,abs : ba.linear2db : mainPatch(group(subgroup(vbargraph("Level %i",-60,0)))))));
 //-----------
@@ -27,6 +28,8 @@ rmsInputVis(timeRMS) = (_ : movingAverageRMS(timeRMS) <: attach(_,abs : ba.linea
 peakInputVis(timePeak) = (_ : peakenvelope(timePeak) <: attach(_,abs : ba.linear2db : mainPatch(group(vbargraph("[4]Peak",-60,0)))));
 //-----------
 picchiMediaInputVis(peakTime,peakTresh,secCounter,timeSmooth) = (_ : frequenzaPicchi(peakTime,peakTresh,secCounter,timeSmooth) <: attach(_,abs : ba.linear2db : mainPatch(group(vbargraph("[5]f-Picchi[style:numerical][tooltip:frequenza media picchi campana]",-60,+20)))));
+//-----------
+output = par(i,2,(_ <: attach(_,abs : ba.linear2db : mainPatch(group(subgroup2(vbargraph("Out %i",-60,0)))))));
 //======================================================================================================
 
 
