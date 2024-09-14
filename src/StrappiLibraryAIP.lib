@@ -101,6 +101,7 @@ diffTresh(x) = x > x';
 //======================================================================================================
 //                                    FILTER BANK
 bpBankFmul(freqDev,qFilBank) = si.bus(6): par(i,6,BPTPTNormalized(10,qFilBank,ba.take(i+1,freqList)*freqDev));
+bpBankFmul2(freqDev,qFilBank) = si.bus(6): par(i,6,BPTPTNormalized(10,qFilBank,((ba.take(i+1,freqList)*freqDev) +(os.osc(1+os.osc(.26)*10)*20):integrator(.3)) ) );
 // funzione pressoché deprecata
 //-----------
 freqList = (713,1844,3284,4946,6788,7744);

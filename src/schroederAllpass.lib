@@ -12,6 +12,9 @@ import("stdfaust.lib");
 // DELAY IN FEEDBACK LOOP
 //fig. 1
 dflc(t,g) = (+ : @(t-1))~*(g) : mem;
+dflcVAR(t,g) = (+ : de.sdelay(ma.SR, ma.SR/100,t-1))~*(g) : mem;
+dflcVARfir(t,g) = (+ : de.sdelay(ma.SR, ma.SR/100,t-1))~(firModule:*(g)): mem;
+firModule = _ <: *(.5) + (_'*(.5));
 //process = dflc(t,g);
 //------------------------------------------
 //
@@ -51,22 +54,16 @@ apfNotExp(t,g) = _ <: dflApf(t,g)*(1-g^2) + _*(-g);
 // reverberation time
 gainRev = .5;
 T = 6;
-tau(x) = ba.sec2samp(x);
-t4 = tau(0.0424);
-t3 = tau(0.0416);
-t2 = tau(0.036);
-t1 = tau(0.0329);
+tau(x) = ba.sec2samp(x):int;
+t4 = tau(0.0424);//+ .0013*(no.noise :ba.sAndH(ba.pulsen(1, ma.SR*(abs(max(no.noise*10,1) :ba.sAndH(ba.pulsen(1,ma.SR*7))))))));
+t3 = tau(0.0416);//+ .0021*(no.noise :ba.sAndH(ba.pulsen(1, ma.SR*(abs(max(no.noise*10,1) :ba.sAndH(ba.pulsen(1,ma.SR*5))))))));
+t2 = tau(0.036);//+ .003*(no.noise :ba.sAndH(ba.pulsen(1, ma.SR*(abs(no.noise :ba.sAndH(ba.pulsen(1,ma.SR*3))))))));
+t1 = tau(0.0329);//+ .04*(no.noise :ba.sAndH(ba.pulsen(1, ma.SR*(abs(no.noise :ba.sAndH(ba.pulsen(1,ma.SR*4))))))));
 gNth(tNth,tSec) = 10^(((-3*tNth)/(T*ma.SR)));
 combApf(tSec,gainRev) = _ <: _ +
-                (dflc(t1,gNth(t1,tSec)),
-                dflc(t2,gNth(t2,tSec)),
-                dflc(t3,gNth(t3,tSec)),
-                dflc(t4,gNth(t4,tSec)) 
-                :> apfSeries(0.004,.7,2)*gainRev);
+                (dflcVARfir(t1,gNth(t1,tSec)),
+                dflcVARfir(t2,gNth(t2,tSec)),
+                dflcVARfir(t3,gNth(t3,tSec)),
+                dflcVARfir(t4,gNth(t4,tSec)) 
+                :> apfSeries((ba.sec2samp(0.004)),1/sqrt(2),2)*gainRev);
 // test
-//process =  _ : mspan(1,deg*ma.PI/180) : _, combApf : sdmx;
-combApf2 = _ <: (dflc(t1,gNth(t1)),
-                dflc(t2,gNth(t2)),
-                dflc(t3,gNth(t3)),
-                dflc(t4,gNth(t4)) 
-                :> apfSeries(0.004,.7,2)*gainRev);
