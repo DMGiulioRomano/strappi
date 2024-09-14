@@ -83,6 +83,24 @@ with {
 };
 movingAverage(seconds, x) = x - x@(seconds * ma.SR) : fi.pole(1) / (seconds * ma.SR);
 movingAverageRMS(seconds, x) = sqrt(max(0, movingAverage(seconds, x ^ 2)));
+// Vadim Zavalishin's Onepole TPT Filter (Topology Preserving Transform) 
+onePoleTPT(cf, x) = loop ~ _ : ! , si.bus(3)
+    with {
+        g = tan(cf * ma.PI * ma.T);
+        G = g / (1.0 + g);
+        loop(s) = u , lp , hp , ap
+            with {
+            v = (x - s) * G; u = v + lp; lp = v + s; hp = x - lp; ap = lp - hp;
+            };
+    };
+    
+LPTPT(cf, x) = onePoleTPT(cf, x) : (_ , ! , !);
+// lookahead limiter with: peakHolder, lowpass & peakenvelope
+// All the credits of the original version goes to Dario Sanfilippo 
+LookaheadLimiter(threshold, holdSec, decaySec, x) = 
+    (x : peakHolder(holdSec) : LPTPT(1/holdSec) : peakenvelope(decaySec)) : 
+        (min(1, threshold) / max(1, _)) * 
+            (x @ (holdSec * ma.SR)); 
 //======================================================================================================
 
 

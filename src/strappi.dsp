@@ -76,12 +76,11 @@ interruttori_noInput=si.bus(4): par(i,2,*(checkbox("1")):*(volumePlus)), par(i,2
 volumePlus = nentry("vol",1,1,9,0.1):si.smoo;
 
 
-
 // only processed part
-//process=input <:(inputMid <: ampAcuto, ampGrave, _, bpBankPeakEnv: multichord) : interruttori_noInput :> si.bus(2);
+process=input <:(inputMid <: ampAcuto, ampGrave, _, bpBankPeakEnv: multichord) : interruttori_noInput :> si.bus(2) : par(i,2,LookaheadLimiter(1,.01,0.1)) : par(i,2, fi.dcblockerat(16));
 
 
-process=input <: si.bus(2), (inputMid <: ampAcuto, ampGrave, _, bpBankPeakEnv: multichord) : interruttori : ideOut;
+//process=input <: si.bus(2), (inputMid <: ampAcuto, ampGrave, _, bpBankPeakEnv: multichord) : interruttori : ideOut ;
 
 
 // per testare
