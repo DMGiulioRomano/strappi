@@ -1,0 +1,499 @@
+\documentclass[tikz, a3paper, landscape, border=0]{standalone}
+\usetikzlibrary{calc}
+\usetikzlibrary{intersections}
+
+\usepackage{comandi}
+\usepackage{musicography}
+\usepackage{pgfmath}
+\usepackage{hyperref}  
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary {decorations.text}
+\catcode`\|12
+\usetikzlibrary { decorations.pathmorphing, decorations.pathreplacing, decorations.shapes}
+ 
+\begin{document}
+\begin{tikzpicture}
+
+
+
+
+
+
+
+%======================================================================
+% ------------------------------ preparazione foglio di lavoro ----------------------------------------------------
+\def\paperHeight{29.7}
+\def\paperWidth{42}
+\fill[white] (0,0) rectangle ++ (\paperWidth,\paperHeight);
+% Imposta la griglia del foglio A3 come riferimento (42x29.7 cm)
+%\draw[step=.1cm, gray, very thin] (0, 0) grid (\paperWidth, \paperHeight); % Griglia per visualizzare lo spazio A3
+%\draw[step=1cm, black, very thin] (0, 0) grid (\paperWidth, \paperHeight); % Griglia per visualizzare lo spazio A3
+%======================================================================
+
+
+
+
+
+
+
+
+
+%======================================================================
+% Posizionamento delle carte in cerchio
+\def\circleRadius{11cm}  % Regola questo valore in base alle tue esigenze
+\def\numCards{11}  % Numero di carte nel cerchio principale
+\def\angleOffset{30}  % Offset angolare per ruotare l'intero layout
+% ------------------
+\def\pointWidth{3pt}
+% ------------------
+\def\minimumSize{1.5pt}
+% ------------------
+\def\arrowWidth{6pt}
+\def\arrowLength{9pt}
+\def\sumWidth{1pt}
+\def\lineWidthMore{3pt}
+\def\lineWidthMedium{\lineWidthMore-1.5}
+\def\lineWidth{\lineWidthMore-2.5pt}
+\def\arrowWidthMore{9pt}
+\def\arrowLengthMore{12pt}
+\def\sumWidthMore{3pt}
+\def\roundedCorners{8pt}
+% ------------------
+\def\cardRadius{2.1cm} 
+\def\cardRadiusTwo{\cardRadius + .5cm} 
+% ------------------
+\def\battenteheight{.25}
+\def\battentewidth{1.3}
+%======================================================================
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione cards -------------------------------------------------------------------
+%
+\foreach \i in {1,...,3} {
+    \coordinate (card\i) at ($(4,\paperHeight) - (0,6*\i-1)$);
+    \gettikzxy{(card\i)}{\bx}{\by}
+    \cardtwo{\bx}{\by}{\cardRadius}{card\i}{\cardRadiusTwo}
+    }
+\foreach \i in {4,...,\numCards} {
+    \placeCardOnCircle{\i}{\circleRadius}{\numCards}{\angleOffset}
+    
+}
+    \gettikzxy{(card1)}{\bx}{\by}
+    \draw [line width = \lineWidthMore-1.5pt,name path=card1] (\bx, \by) circle (\cardRadiusTwo-4);
+    \gettikzxy{(card2)}{\bx}{\by}
+    \draw [line width = \lineWidthMore-1.5pt,name path=card2] (\bx, \by) circle (\cardRadiusTwo-4);
+    \gettikzxy{(card3)}{\bx}{\by}
+    \draw [line width = \lineWidthMore-1.5pt, name path=card3] (\bx, \by) circle (\cardRadiusTwo-4);
+    \gettikzxy{(card4)}{\bx}{\by}
+    
+\circleAroundReversed{\bx}{\by}{\cardRadius}{card4}{\cardRadiusTwo}{1}{-25}{\lineWidthMore}
+    \gettikzxy{(card5)}{\bx}{\by}
+\circleAroundReversed{\bx}{\by}{\cardRadius}{card5}{\cardRadiusTwo}{.3}{20}{\lineWidthMedium}
+    \gettikzxy{(card6)}{\bx}{\by}
+\circleAroundReversed{\bx}{\by}{\cardRadius}{card6}{\cardRadiusTwo}{1}{-25}{\lineWidthMore}
+    \gettikzxy{(card7)}{\bx}{\by}
+\circleAroundReversed{\bx}{\by}{\cardRadius}{card7}{\cardRadiusTwo}{.3}{110}{\lineWidthMedium}
+    \gettikzxy{(card8)}{\bx}{\by}
+\circleAroundReversed{\bx}{\by}{\cardRadius}{card8}{\cardRadiusTwo}{.3}{160}{\lineWidthMedium}
+    \gettikzxy{(card9)}{\bx}{\by}
+\circleAroundReversed{\bx}{\by}{\cardRadius}{card9}{\cardRadiusTwo}{1}{-30}{\lineWidthMore}
+    \gettikzxy{(card10)}{\bx}{\by}
+\circleAroundReversed{\bx}{\by}{\cardRadius}{card10}{\cardRadiusTwo}{.3}{-100}{\lineWidthMedium}
+    \gettikzxy{(card11)}{\bx}{\by}
+\circleAroundReversed{\bx}{\by}{\cardRadius}{card11}{\cardRadiusTwo}{.3}{-70}{\lineWidthMedium}
+ 
+    \coordinate (card12) at (\paperWidth/2,\paperHeight/2);
+    \gettikzxy{(card12)}{\bx}{\by}
+    \cardtwo{\bx}{\by}{\cardRadius}{card12}{\cardRadiusTwo}
+\circleAround{\bx}{\by}{\cardRadius}{card12}{\cardRadiusTwo}
+%======================================================================
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione campane		-------------------------------------------------------
+%
+\campana{0}{-.3}{.8}{capovolta}{libera}{card1}
+\campana{0}{-.3}{.8}{capovolta}{libera}{card2}
+\campana{0}{-.3}{.8}{ordinaria}{bloccata}{card3}
+\campana{0}{-.3}{.8}{ordinaria}{bloccata}{card4}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{card5}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{card6}
+%\campanaAcc{0}{0}{.8}{bloccata}{card6bis}
+\campanaAccZ{0}{-.3}{.8}{libera}{card7}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{card8}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{card9}
+\campanaAccZ{0}{-.3}{.8}{libera}{card10}
+\campanaAccZ{0}{-.3}{.8}{libera}{card11}
+\campana{0}{-.3}{.8}{ordinaria}{bloccata}{card12}
+%======================================================================
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione battenti		-------------------------------------------------------
+%
+% ----------------------------	CARD	1
+\updateBattentePosition{0.1}{0}
+\battente{card1}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{60}
+\strofinato{card1}{.65}{.1}{-1.185}{.4}
+% ----------------------------	CARD	2
+\updateBattentePosition{0}{.23}
+\battente{card2}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{0}
+\draw[arrows = {-Latex}, double distance=1.2pt] ($(card2) + (0,1.2)$) -- ($(card2) + (0,.33)$);
+% ----------------------------	CARD	3
+\updateBattentePosition{0}{.02}
+\battente{card3}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{60}
+\strofinato{card3}{.8}{.1}{-1.45}{.4}
+% ----------------------------	CARD	4
+\updateBattentePosition{-.35}{.02}
+\battente{card4}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{45}
+% ----------------------------	CARD	5
+\updateBattenteAccPosition{0}{.23}
+\battenteAcc{card5}{\battenteStartAccX}{\battenteStartAccY}{\battentewidth}{\battenteheight}{aperto}{0}
+\draw[arrows = {-Latex}, double distance=1.2pt] ($(card5) + (0,1.2)$) -- ($(card5) + (0,.33)$);
+% ----------------------------	CARD	6
+\updateBattentePosition{-.45}{-.3}
+\battente{card6}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{0}
+% ----------------------------	CARD	7
+\updateBattentePosition{0}{.02}
+\battente{card7}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{60}
+\strofinato{card7}{.8}{.1}{-1.45}{.4}
+% ----------------------------	CARD	8
+\updateBattentePosition{-.35}{.02}
+\battente{card8}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{45}
+% ----------------------------	CARD	9
+\updateBattentePosition{0}{.02}
+\battente{card9}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{60}
+\strofinato{card9}{.8}{.1}{-1.45}{.4}
+% ----------------------------	CARD	10
+\updateBattentePosition{-.45}{-.3}
+\battente{card10}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{0}
+% ----------------------------	CARD	11
+\updateBattentePosition{-.35}{.02}
+\battente{card11}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{45}
+% ----------------------------	CARD	12
+\updateBattentePosition{0.36}{-.4}
+\battente{card12}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{80}
+\draw[line width = .8pt] ($(card12)+(-.7,+.085)$) -- ($(card12)+(+.7,+.085)$);
+\draw[->]   ($(card12)+(-.5,-.7)$) to[out=-30, in=200, looseness=1] ($(card12)+(.6,-.7)$);
+\campanaSbiadita{0}{-.3}{.8}{ordinaria}{bloccata}{card12}
+%======================================================================
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione durate e dinamiche -------------------------------------------------
+% 
+%
+% ----------------------------	CARD	1
+\node (dur) at ($(card1) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 30 s $\sim$};
+\node (amp) at ($(card1) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf} $\sim$ \textit{ff}};
+% ----------------------------	CARD	2
+\node (dur) at ($(card2) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize epsylon};
+\node (amp) at ($(card2) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf}};
+% ----------------------------	CARD	3
+\node (dur) at ($(card3) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 30 s $\sim$};
+\node (amp) at ($(card3) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf} $\sim$ \textit{f}};
+% ----------------------------	CARD	4
+\node (dur) at ($(card4) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize eps $\sim$ 2 s};
+\node (amp) at ($(card4) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mp} $\sim$ \textit{mf}};
+% ----------------------------	CARD	5
+\node (dur) at ($(card5) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize epsylon};
+\node (amp) at ($(card5) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{pp} $\sim$ \textit{mf}};
+% ----------------------------	CARD	6
+\node (dur) at ($(card6) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 1 $\sim$ 10 s};
+\node (amp) at ($(card6) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {};
+\gettikzxy{(amp)}{\ampx}{\ampy}
+\coordinate (nulla) at ($(\ampx-\cardRadius/4, \ampy)$);
+\coordinate (B) at ($(nulla) + (\cardRadius/2.5, \cardRadius/35)$);
+\coordinate (C) at ($(nulla) + (\cardRadius/2.5, -\cardRadius/35)$);
+\coordinate (f) at ($(\ampx+\cardRadius/4, \ampy)$);
+\node[draw=black, circle,  thin, inner sep=1pt] at (nulla) {};
+    \draw[thin] ($(nulla)+(.05,0)$) -- (B);  % Linea superiore del crescendo
+    \draw[thin] ($(nulla)+(.05,0)$) -- (C); % Linea inferiore del crescendo
+	\node at (f) {\normalsize \textit{f}};
+
+% ----------------------------	CARD	7
+\node (dur) at ($(card7) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 3 $\sim$ 9 s};
+\node (amp) at ($(card7) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {};
+\gettikzxy{(amp)}{\ampx}{\ampy}
+\coordinate (mf) at ($(\ampx-\cardRadius/4, \ampy)$);
+\coordinate (B) at ($(mf) + (\cardRadius/2.5, \cardRadius/35)$);
+\coordinate (C) at ($(mf) + (\cardRadius/2.5, -\cardRadius/35)$);
+\coordinate (f) at ($(\ampx+\cardRadius/4, \ampy)$);
+\node at ($(mf)$) {\normalsize\textit{mf}};
+    \draw[thin] ($(mf)+(.3,0)$) -- (B);  % Linea superiore del crescendo
+    \draw[thin] ($(mf)+(.3,0)$) -- (C); % Linea inferiore del crescendo
+	\node at (f) {\normalsize \textit{ff}};
+% ----------------------------	CARD	8
+\node (dur) at ($(card8) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize eps $\sim$ 4 s};
+\node (amp) at ($(card8) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf}};
+% ----------------------------	CARD	9
+\node (dur) at ($(card9) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 4 $\sim$ 12 s};
+\node (amp) at ($(card9) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {};
+\gettikzxy{(amp)}{\ampx}{\ampy}
+\coordinate (mf) at ($(\ampx-\cardRadius/4, \ampy)$);
+\coordinate (B) at ($(mf) + (\cardRadius/2.5, \cardRadius/35)$);
+\coordinate (C) at ($(mf) + (\cardRadius/2.5, -\cardRadius/35)$);
+\coordinate (sfz) at ($(\ampx+\cardRadius/3.5, \ampy)$);
+\node at ($(mf)$) {\normalsize \textit{mf}};
+    \draw[thin] ($(mf)+(.3,0)$) -- (B);  % Linea superiore del crescendo
+    \draw[thin] ($(mf)+(.3,0)$) -- (C); % Linea inferiore del crescendo
+	\node at (sfz) {\normalsize \textit{sfz}};
+% ----------------------------	CARD	10
+\node (dur) at ($(card10) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize eps $\sim$ 4 s};
+\node (amp) at ($(card10) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mp} $\sim$ \textit{f}};
+% ----------------------------	CARD	11
+\node (dur) at ($(card11) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize eps $\sim$ 3 s};
+\node (amp) at ($(card11) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{p} $\sim$ \textit{ff}};
+% ----------------------------	CARD	12
+\node (dur) at ($(card12) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 10 $\sim$ 30 s};
+\node (amp) at ($(card12) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{pp} $\sim$ \textit{p}};
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione FRECCE e NODI carte --------------------------------------------
+%	
+% ----------------------------	CARD	1 - 2
+\node at ($(card1)!\cardRadiusTwo-4!(card2)$) [] (out1) {};
+\node at ($(card2)!\cardRadiusTwo-4!(card1)$) [] (in2) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.6 and 1 step 10mm with {\arrow[scale=1.3]{stealth}}}] {(out1) -- (in2.center)};
+\draw[line width = \lineWidthMedium] (out1.center) -- (in2.center);
+% ----------------------------	CARD	2 - 3
+\node at ($(card2)!\cardRadiusTwo-4!(card3)$) [] (out2) {};
+\node at ($(card3)!\cardRadiusTwo-4!(card2)$) [] (in3) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.6 and 1 step 10mm with {\arrow[scale=1.3]{stealth}}}] {(out2) -- (in3.center)};
+\draw[line width = \lineWidthMedium] (out2.center) -- (in3.center);
+% ----------------------------	CARD	3 - 4
+\node at ($(card3)!\cardRadiusTwo-4!(card4)$) [] (out3) {};
+\node at ($(card4)!\cardRadiusTwo!(card3)$) [] (in4) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and 1 step 12mm with {\arrow[scale=1.3]{stealth}}}] {(out3.center) -- (in4.center)};
+\draw[line width = \lineWidthMedium] (out3.center) -- (in4.center);
+% ----------------------------	CARD	4 - 5
+\node at ($(card4)!\cardRadiusTwo!(card5)$) [] (out4) {};
+\node at ($(card5)!\cardRadiusTwo!(card4)$) [] (in5) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 11mm with {\arrow[scale=1.3]{stealth}}}] {(out4.center) -- (in5.center)};
+\draw[line width = \lineWidthMedium] (out4.center) -- (in5.center);
+% ----------------------------	CARD	5 - 12
+\node at ($(card5)!\cardRadiusTwo!(card12)$) [] (out5) {};
+\node at ($(card12)!\cardRadiusTwo!(card5)$) [] (in12-5) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 14mm with {\arrow[scale=1.3]{stealth}}}] {(out5.center) -- (in12-5.center)};
+\draw[line width = \lineWidthMedium] (out5.center) -- (in12-5.center);
+% ----------------------------	CARD	5 - 6 *********
+\node at ($(card5)!\cardRadiusTwo!(card6)$) [] (out5) {};
+\node at ($(card6)!\cardRadiusTwo!(card5)$) [] (in6) {};
+\draw[line width = \lineWidth] decorate[decoration={markings, mark=between positions 0.3 and 0.9 step 11mm with {\arrow[scale=1.5]{stealth}}}] {(out5.center) -- (in6.center)};
+\draw[line width = \lineWidth]  (out5.center) -- (in6.center);
+% ----------------------------	CARD	12 - 6
+\node at ($(card12)!\cardRadiusTwo!(card6)$) [] (out12-6) {};
+\node at ($(card6)!\cardRadiusTwo!(card12)$) [] (in6) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 14mm with {\arrow[scale=1.3]{stealth}}}] { (out12-6.center) -- (in6.center)};
+\draw[line width = \lineWidthMedium]  (out12-6.center) -- (in6.center);
+% ----------------------------	CARD	6 - 7
+\node at ($(card6)!\cardRadiusTwo!(card7)$) [] (out6) {};
+\node at ($(card7)!\cardRadiusTwo!(card6)$) [] (in7) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 11mm with {\arrow[scale=1.3]{stealth}}}] { (out6.center) -- (in7.center)};
+\draw[line width = \lineWidthMedium]  (out6.center) -- (in7.center);
+% ----------------------------	CARD	7 - 8
+\node at ($(card7)!\cardRadiusTwo!(card8)$) [] (out7) {};
+\node at ($(card8)!\cardRadiusTwo!(card7)$) [] (in8) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 11mm with {\arrow[scale=1.3]{stealth}}}] { (out7.center) -- (in8.center)};
+\draw[line width = \lineWidthMedium]  (out7.center) -- (in8.center);
+% ----------------------------	CARD	8 - 12
+\node at ($(card8)!\cardRadiusTwo!(card12)$) [] (out8) {};
+\node at ($(card12)!\cardRadiusTwo!(card8)$) [] (in12-8) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 14mm with {\arrow[scale=1.3]{stealth}}}] { (out8.center) -- (in12-8.center)};
+\draw[line width = \lineWidthMedium]  (out8.center) -- (in12-8.center);
+% ----------------------------	CARD	8 - 9 *********
+\node at ($(card8)!\cardRadiusTwo!(card9)$) [] (out8) {};
+\node at ($(card9)!\cardRadiusTwo!(card8)$) [] (in9) {};
+\draw[line width = \lineWidth] decorate[decoration={markings, mark=between positions 0.3 and 0.9 step 11mm with {\arrow[scale=1.5]{stealth}}}] {  (out8.center) -- (in9.center)};
+\draw[line width = \lineWidth]   (out8.center) -- (in9.center);
+% ----------------------------	CARD	12 - 9
+\node at ($(card12)!\cardRadiusTwo!(card9)$) [] (out12-9) {};
+\node at ($(card9)!\cardRadiusTwo!(card12)$) [] (in9) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 14mm with {\arrow[scale=1.3]{stealth}}}] { (out12-9.center) -- (in9.center)};
+\draw[line width = \lineWidthMedium]  (out12-9.center) -- (in9.center);
+% ----------------------------	CARD	9 - 10
+\node at ($(card9)!\cardRadiusTwo!(card10)$) [] (out9) {};
+\node at ($(card10)!\cardRadiusTwo!(card9)$) [] (in10) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 11mm with {\arrow[scale=1.3]{stealth}}}] { (out9.center) -- (in10.center)};
+\draw[line width = \lineWidthMedium]  (out9.center) -- (in10.center);
+% ----------------------------	CARD	10 - 11
+\node at ($(card10)!\cardRadiusTwo!(card11)$) [] (out10) {};
+\node at ($(card11)!\cardRadiusTwo!(card10)$) [] (in11) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 11mm with {\arrow[scale=1.3]{stealth}}}] { (out10.center) -- (in11.center)};
+\draw[line width = \lineWidthMedium]  (out10.center) -- (in11.center);
+% ----------------------------	CARD	11 - 12
+\node at ($(card11)!\cardRadiusTwo!(card12)$) [] (out11) {};
+\node at ($(card12)!\cardRadiusTwo!(card11)$) [] (in12-11) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 14mm with {\arrow[scale=1.3]{stealth}}}] { (out11.center) -- (in12-11.center)};
+\draw[line width = \lineWidthMedium]  (out11.center) -- (in12-11.center);
+
+% ----------------------------	CARD	11 - 4 *********
+\node at ($(card11)!\cardRadiusTwo!(card4)$) [] (out11) {};
+\node at ($(card4)!\cardRadiusTwo!(card11)$) [] (in4) {};
+\draw[line width = \lineWidth] decorate[decoration={markings, mark=between positions 0.3 and 0.9 step 11mm with {\arrow[scale=1.5]{stealth}}}] { (out11.center) -- (in4.center)};
+\draw[line width = \lineWidth]  (out11.center) -- (in4.center);
+% ----------------------------	CARD	12 - 4
+\node at ($(card12)!\cardRadiusTwo!(card4)$) [] (out12-4) {};
+\node at ($(card4)!\cardRadiusTwo!(card12)$) [] (in4-12) {};
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 14mm with {\arrow[scale=1.3]{stealth}}}] { (out12-4.center) -- (in4-12.center)};
+\draw[line width = \lineWidthMedium]  (out12-4.center) -- (in4-12.center);
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione FRECCE superiori --------------------------------------------------
+%
+% ----------------------------	CARD 5 => CARD 4
+	\draw[opacity=0,name path=segment54] (card5) to[out=100, in=0, looseness=2] (card4);
+	\path[name intersections={of=card5 and segment54, by={card55}}];
+	\node[opacity=0,fill=black, circle, minimum size=5pt, inner sep=0pt] at (card55) {};
+	\path[name intersections={of=card4 and segment54, by={card44}}];
+	\node[opacity=0,fill=black, circle, minimum size=5pt, inner sep=0pt] at (card44) {};
+	\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.2 and .9 step 11mm with {\arrow[scale=1.3]{stealth}}}] {(card55.center) to[out=100, in=0, looseness=2] (card44.center)};
+	\draw[line width = \lineWidthMore] (card55.center) to[out=100, in=0, looseness=2] (card44.center);
+% ----------------------------	CARD 8 => CARD 7
+	\draw[opacity=0,name path=segment87] (card8) to[out=235, in=135, looseness=2] (card7);
+	\path[name intersections={of=card8 and segment87, by={card88}}];
+	\node[opacity=0,fill=black, circle, minimum size=5pt, inner sep=0pt] at (card88) {};
+	\path[name intersections={of=card7 and segment87, by={card77}}];
+	\node[opacity=0,fill=black, circle, minimum size=5pt, inner sep=0pt] at (card77) {};
+	\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.2 and .9 step 11mm with {\arrow[scale=1.3]{stealth}}}] {(card88.center) to[out=235, in=135, looseness=2] (card77.center)};
+	\draw[line width = \lineWidthMore] (card88.center) to[out=235, in=135, looseness=2] (card77.center);
+% ----------------------------	CARD 11 => CARD 10
+	\draw[opacity=0,name path=segment1110] (card11) to[out=15, in=-80, looseness=2] (card10);
+	\path[name intersections={of=card11 and segment1110, by={card1111}}];
+	\node[opacity=0,fill=black, circle, minimum size=5pt, inner sep=0pt] at (card1111) {};
+	\path[name intersections={of=card10 and segment1110, by={card1010}}];
+	\node[opacity=0,fill=black, circle, minimum size=5pt, inner sep=0pt] at (card1010) {};
+	\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and .9 step 11mm with {\arrow[scale=1.3]{stealth}}}] {(card1111.center) to[out=15, in=-80, looseness=2] (card1010.center)};
+	\draw[line width = \lineWidthMore] (card1111.center) to[out=15, in=-80, looseness=2] (card1010.center);
+
+
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione FRECCE inferiori ---------------------------------------------------
+%
+% ----------------------------	CARD 8 => CARD 6
+    \gettikzxy{(card6)}{\bx}{\by}
+    \pgfmathsetmacro{\angle}{360/(\numCards - 3) * (7) + \angleOffset}
+    \def\fakeCircle{\circleRadius+\cardRadiusTwo+\cardRadiusTwo}
+    \coordinate (car7away) at ($(\paperWidth/2,\paperHeight/2) + (\angle:\fakeCircle)$);
+	\node[opacity=0,draw,fill=black,circle, minimum size=5pt, inner sep=0pt] (card7away) at (car7away) {};	
+	\draw[opacity=0,name path=segment87away] (card8) to[out=0, in=90, looseness=0] (card7away);
+
+	\draw[opacity=0,name path=segment67away] (card7away) to[out=270, in=0, looseness=0] (card6);
+	\path[name intersections={of=card8 and segment87away, by={card88away}}];
+	\node[opacity=0,fill=black, circle, minimum size=5pt, inner sep=0pt] at (card88away) {};
+% calcolo l'angolo del punto
+    \pgfmathanglebetweenpoints{\pgfpointanchor{card8}{center}}{\pgfpointanchor{card88away}{center}}
+    \let\angle\pgfmathresult 
+	\path[name intersections={of=card6 and segment67away, by={card66away}}];
+	\node[opacity=0,fill=black, circle, minimum size=5pt, inner sep=0pt] at (card66away) {};
+% calcolo l'angolo del punto
+    \pgfmathanglebetweenpoints{\pgfpointanchor{card6}{center}}{\pgfpointanchor{card66away}{center}}
+    \let\angleTwo\pgfmathresult 
+
+	\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.2 and .9 step 11mm with {\arrow[scale=1.3]{stealth}}}] {(card88away.center) to[out=\angle, in=\angle-230, in looseness=1] (card7away.center) to[out=\angleTwo+230, in=\angleTwo, out looseness=1] (card66away)};
+	\draw[line width = \lineWidthMore] (card88away.center) to[out=\angle, in=\angle-230, in looseness=1] (card7away.center) to[out=\angleTwo+230, in=\angleTwo, out looseness=1] (card66away);
+
+
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione Licence ----------------------------------------------------------------
+% 
+%\node at (38,1) {\includegraphics[width=.8cm]{CC-license/cc.pdf}};  % Logo CC
+%\node at (39,1) {\includegraphics[width=.8cm]{CC-license/by.pdf}};  % Logo BY
+%\node at (40,1) {\includegraphics[width=.8cm]{CC-license/nc.pdf}};  % Logo NC
+%\node at (41,1) {\includegraphics[width=.8cm]{CC-license/nd.pdf}};  % Logo ND
+% ----------------------------	
+% Aggiungi un link ipertestuale nella tikzpicture
+%\node[left] at (41.5,3.5) {\href{https://github.com/DMGiulioRomano/strappi}{Jolt}};
+%\node[left] at (41.5,2.75) {\href{https://github.com/DMGiulioRomano}{Giulio Romano De Mattia}};
+%\node[left] at (41.5,2) {\href{https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1}{Licensed under CC BY-NC-ND}};
+%======================================================================
+
+
+
+
+%\node [draw, ellipse,fit=(card4) (card5),inner sep=35pt, dashed,rotate fit=-30] {};
+%\node [draw, ellipse,fit=(card6) (card7) (card8),inner sep=22pt, dashed,rotate fit=-15] {};
+%\node [draw, ellipse,fit=(card10) (card11) (card9),inner sep=5pt, dashed,rotate fit=30] {};
+
+
+
+\end{tikzpicture}
+
+
+
+\end{document}

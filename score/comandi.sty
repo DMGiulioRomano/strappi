@@ -1,0 +1,260 @@
+% Imposta il layout su A3 in landscape e i bordi a 0
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary {positioning}
+\usepackage{ifthen}
+\usetikzlibrary {arrows.meta}
+\usepackage{pgffor} % Per gli array
+
+
+
+
+% ==================================================
+% Comando per creare un rettangolo container con nodo
+% Il nodo viene nominato "container"
+% x, y, larghezza, altezza
+% -----------------------------------
+
+\newcommand{\circleAround}[5]{
+    \draw [line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0 and 1 step 14mm with {\arrow[scale=1.3]{stealth}}}] {(#1, #2) circle (#5)
+        node at (#1, #2) (#4) {}};
+    \draw [line width = \lineWidthMore] (#1, #2) circle (#5)
+        node at (#1, #2) (#4) {};
+}
+
+
+%======================================================================
+
+\newcommand{\circleAroundReversed}[8]{
+    \def\centerx{#1}
+    \def\centery{#2}
+
+    \draw [line width = \lineWidthMore,shift={(\centerx,\centery)}, rotate=#7, shift={(-\centerx,-\centery)}] decorate[decoration={markings, mark=between positions 0 and #6 step 14mm with {\arrowreversed[scale=1.3]{stealth}}}] {(#1, #2) circle (#5)
+        node at (#1, #2) (#4) {}};
+    \draw [line width = #8, name path=#4] (#1, #2) circle (#5)
+        node at (#1, #2) (#4) {};
+
+}
+%======================================================================
+
+
+%======================================================================
+% Nuova macro per posizionare le carte in cerchio
+\newcommand{\placeCardOnCircle}[5]{
+    % #1: numero della carta
+    % #2: raggio del cerchio
+    % #3: numero totale di carte
+    % #4: offset angolare (in gradi)
+    \pgfmathsetmacro{\angle}{360/(#3 - 3) * (#1) + #4}
+    \coordinate (card#1) at ($(\paperWidth/2,\paperHeight/2) + (\angle:#2)$);
+    \gettikzxy{(card#1)}{\bx}{\by}
+%    \node[draw, fill,black, circle] (a) at (\bx,\by) {};
+    \cardtwo{\bx}{\by}{\cardRadius}{card#1}{\cardRadiusTwo}
+}
+%======================================================================
+%======================================================================
+% Nuova macro per posizionare le carte in cerchio
+\newcommand{\placeCardOnCircleAround}[5]{
+    % #1: numero della carta
+    % #2: raggio del cerchio
+    % #3: numero totale di carte
+    % #4: offset angolare (in gradi)
+    \pgfmathsetmacro{\angle}{360/(#3 - 3) * (#1) + #4}
+    \coordinate (card#1) at ($(\paperWidth/2,\paperHeight/2) + (\angle:#2)$);
+    \gettikzxy{(card#1)}{\bx}{\by}
+%    \node[draw, fill,black, circle] (a) at (\bx,\by) {};
+    \cardtwo{\bx}{\by}{\cardRadius}{card#1}{\cardRadiusTwo}
+    \circleAroundReversed{\bx}{\by}{\cardRadius}{card#1}{\cardRadiusTwo}
+}
+%======================================================================
+
+
+%======================================================================
+% ------------------------------ funzione per ottenere x e y di un nodo ----------------------------------------
+\makeatletter
+\newcommand{\gettikzxy}[3]{%
+  \tikz@scan@one@point\pgfutil@firstofone#1\relax
+  \edef#2{\the\pgf@x}%
+  \edef#3{\the\pgf@y}%
+}
+\makeatother
+%======================================================================
+
+
+
+% ==================================================
+% Comando per creare un cerchio container con nodo
+% Il nodo viene nominato "container"
+% x, y, larghezza, altezza
+% -----------------------------------
+\newcommand{\cardtwo}[5]{
+    \draw [line width = 1pt, dashed,dotted] (#1, #2) circle (#3)
+        node at (#1, #2) (#4) {};
+    %\draw [line width = 1.5pt, dashed] (#1, #2) circle (#5);
+}
+
+% ==================================================
+% Comando per creare un rettangolo container con nodo
+% Il nodo viene nominato "container"
+% x, y, larghezza, altezza
+% -----------------------------------
+\newcommand{\cardthree}[5]{
+    \draw [line width = 1pt, dashed,dotted] (#1, #2) circle (#3)
+        node at (#1, #2) (#4) {};
+    \draw [line width = 1.5pt, dashed] (#1, #2) circle (#5);
+}
+
+% ==================================================
+% Comando per creare un rettangolo container con nodo
+% Il nodo viene nominato "container"
+% x, y, larghezza, altezza
+% -----------------------------------
+\newcommand{\card}[7]{
+	\edef\midcard{#5}
+    \draw [line width = 2pt, rounded corners=5pt](#1, #2) rectangle ++(#3, #4)
+    		node[midway] (#5) {};
+          	%node[left=of \midcard] (#6) {} % Nodo al centro del lato destro
+        		%node[right=of \midcard] (#7) {}; % Nodo al centro del lato sinistro
+    % Nodo al centro del lato sinistro (west)
+   \node (#6) at (#1,#2+#4/2) [circle, draw, fill=black, inner sep=0mm] {};
+        % Nodo al centro del lato destro (east)
+    \node (#7) at (#1+#3,#2+#4/2) [circle, draw, fill=black, inner sep=0mm] {};
+
+
+}
+
+% ==================================================
+% Comando per disegnare una campana relativa al container
+% #1 = posizione relativa x, #2 = posizione relativa y, 
+% #3 = raggio
+% #4 = direzione ("up" per verso l'alto, "down" per verso il basso)
+% #5 = riempimento ("filled" per riempito, "empty" per vuoto)
+% #6 = nodo a cui è relativa
+\newcommand{\campana}[6]{%
+	\ifthenelse{\equal{#4}{capovolta}}{%
+        		\ifthenelse{\equal{#5}{bloccata}}{%
+			\fill[black, rounded corners=1pt] ($(#6) + (#1-#3, #2-#3/2)$) arc[start angle=180, end angle=0, radius=#3] -- cycle;
+        			}{%
+            		\draw [line width = .8pt, rounded corners=1pt]($(#6) + (#1-#3, #2-#3/2)$) arc[start angle=180, end angle=0, radius=#3] -- cycle;
+        			}
+    		}{%
+		\ifthenelse{\equal{#5}{bloccata}}{%
+			\fill[black, rounded corners=1pt] ($(#6) + (#1-#3, #2+#3/2)$) arc[start angle=-180, end angle=0, radius=#3] -- cycle;
+        			}{%																
+            		\draw [line width = .8pt, rounded corners=1pt]($(#6) + (#1-#3, #2+#3/2)$) arc[start angle=-180, end angle=0, radius=#3] -- cycle;
+        		}
+    	}
+}
+% #1 = posizione relativa x, #2 = posizione relativa y, 
+% #3 = raggio
+% #4 = riempimento di partenza
+% #5 = nodo a cui è relativa
+\newcommand{\campanaAcc}[5]{
+	\ifthenelse{\equal{#4}{bloccata}}{
+		\fill[black, rounded corners=1pt] ($(#5) + (0,#3/2)$) -- ++ (-#3,0) arc[start angle=-180, end angle=-90, radius=#3] -- cycle;	
+		\draw [line width = .8pt, rounded corners=1pt]($(#5) + (#1-#3, #2+#3/2)$) arc[start angle=-180, end angle=0, radius=#3] -- cycle;	
+	}{
+		\fill[black, rounded corners=1pt] ($(#5) + (0,#3/2)$) -- ++ (0,-#3) arc[start angle=-90, end angle=0, radius=#3] -- cycle;	
+		\draw [line width = .8pt, rounded corners=1pt]($(#5) + (#1-#3, #2+#3/2)$) arc[start angle=-180, end angle=0, radius=#3] -- cycle;		
+	}	
+}
+
+%======================================================================
+% #1 = posizione relativa x, #2 = posizione relativa y, 
+% #3 = raggio
+% #4 = riempimento di partenza
+% #5 = nodo a cui è relativa
+\newcommand{\campanaAccZ}[5]{
+	\ifthenelse{\equal{#4}{bloccata}}{
+		\fill[black, rounded corners=.1pt] ($(#5) + (#1,#2+#3/2)$) -- ++ (-#3,0) arc[start angle=-180, end angle=-90, radius=#3] -- cycle;	
+		\draw [line width = .8pt, rounded corners=1pt]($(#5) + (#1-#3, #2+#3/2)$) arc[start angle=-180, end angle=0, radius=#3] -- cycle;	
+	}{
+		\fill[black, rounded corners=.1pt] ($(#5) + (#1,#2+#3/2)$) -- ++ (0,-#3) arc[start angle=-90, end angle=0, radius=#3] -- cycle;	
+		\draw [line width = .8pt, rounded corners=1pt]($(#5) + (#1-#3, #2+#3/2)$) arc[start angle=-180, end angle=0, radius=#3] -- cycle;		
+	}	
+}
+%======================================================================
+
+\newcommand{\campanaSbiadita}[6]{%
+	\ifthenelse{\equal{#4}{capovolta}}{%
+        		\ifthenelse{\equal{#5}{bloccata}}{%
+% 			parte sbiadita
+			\fill[black,fill opacity=0.5, rounded corners=1pt] ($(#6) + (#1-#3, #2-#3/2)$) arc[start angle=180, end angle=0, radius=#3] -- cycle;
+        			}{%
+            		\draw [line width = .8pt, rounded corners=1pt]($(#6) + (#1-#3, #2-#3/2)$) arc[start angle=180, end angle=0, radius=#3] -- cycle;
+        			}
+    		}{%
+		\ifthenelse{\equal{#5}{bloccata}}{%
+% 			parte sbiadita
+			\fill[black,fill opacity=0.5, rounded corners=1pt] ($(#6) + (#1-#3, #2+#3/2)$) arc[start angle=-180, end angle=0, radius=#3] -- cycle;
+        			}{%																
+            		\draw [line width = .8pt, rounded corners=1pt]($(#6) + (#1-#3, #2+#3/2)$) arc[start angle=-180, end angle=0, radius=#3] -- cycle;
+        		}
+    	}
+}
+
+
+% Definire una variabile iniziale per la posizione
+\newcommand{\battenteStartX}{0}
+\newcommand{\battenteStartY}{0}
+\newcommand{\battenteStartAccX}{0}
+\newcommand{\battenteStartAccY}{0}
+
+% Comando per aggiornare la posizione di partenza
+\newcommand{\updateBattentePosition}[2]{
+    \renewcommand{\battenteStartX}{#1}
+    \renewcommand{\battenteStartY}{#2}
+}
+
+\newcommand{\updateBattenteAccPosition}[2]{
+    \renewcommand{\battenteStartAccX}{#1}
+    \renewcommand{\battenteStartAccY}{#2}
+}
+
+
+\newcommand{\battente}[7]{
+    % Parametri: nodo di riferimento, offset x, offset y, larghezza, altezza, riempimento, angolo di rotazione
+     \coordinate (cen) at ($(#1) + (#2, #3)$);
+     \coordinate (center) at ($(cen) + (#4/2, #5/2)$);
+     \coordinate (start) at ($(cen) - (#4/2, #5/2)$);
+    \ifthenelse{\equal{#6}{bloccato}}{%
+        % Rettangolo riempito
+
+        \fill[black, rotate around={#7:(center)}, rounded corners=1pt] (start) rectangle ++(#4, #5);
+    }{%
+        % Rettangolo vuoto
+        \fill[white, rotate around={#7:(center)}, line width = .6pt, rounded corners=1pt] (start) rectangle ++(#4, #5);
+        \draw[rotate around={#7:(center)}, line width = .6pt,  rounded corners=1pt] (start) rectangle ++(#4, #5);
+    }
+}
+
+\newcommand{\battenteAcc}[7]{
+    % Parametri: nodo di riferimento, offset x, offset y, larghezza, altezza, riempimento, angolo di rotazione
+     \coordinate (cen) at ($(#1) + (#2, #3)$);
+     \coordinate (acciaccDestra) at ($(cen) - (.0025,#5/2)$);
+     \coordinate (centerF) at ($(cen) + (#4/2, #5/2)$);
+     \coordinate (start) at ($(cen) - (#4/2, #5/2)$);
+    \ifthenelse{\equal{#6}{bloccato}}{%
+        % Rettangolo acc sinistra
+
+        \fill[black, rotate around={#7:(centerF)}, rounded corners=.5pt] (start) rectangle ++(#4/2, #5);
+        \draw[rotate around={#7:(centerF)}, line width = .6pt, rounded corners=1pt] (start) rectangle ++(#4, #5);
+      }{%
+        % Rettangolo acc destra
+        \fill[black, rotate around={#7:(centerF)}, rounded corners=.2pt] (acciaccDestra) rectangle ++(#4/2, #5);
+        \draw[ rotate around={#7:(centerF)}, line width = .6pt, rounded corners=1pt] (start) rectangle ++(#4, #5);
+    }
+}
+
+
+
+
+\newcommand{\strofinato}[5]{
+    % #1: Nodo di riferimento
+    % #2: Dimensione dell'arco
+	\coordinate (start) at ($(#1) + (#4,#5)$);
+    % Disegna una freccia curva che punta su se stessa e la posiziona sul nodo specificato
+    \draw[thick,->] (start) + (0:#2) arc[start angle=140, end angle=460,  x radius=#2, y radius=#3];
+}
+
+
