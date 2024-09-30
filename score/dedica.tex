@@ -1,0 +1,49 @@
+\documentclass[tikz, a3paper, landscape, border=0]{standalone}
+
+\usepackage{newpxtext}
+\usepackage{newpxmath}
+\usepackage{fontspec}
+\usepackage{hyperref}  
+ \usepackage[utf8]{inputenc}  
+\catcode`\|12
+% -----------------------------
+\usetikzlibrary{calc}
+\usetikzlibrary{intersections}
+% -----------------------------
+\usepackage{comandi}
+% -----------------------------
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary {decorations.text}
+\usetikzlibrary { decorations.pathmorphing, decorations.pathreplacing, decorations.shapes}
+\usetikzlibrary{matrix}
+\usetikzlibrary {quotes} 
+
+
+
+\newcommand{\dedica}{a Marco Di Gasbarro}
+
+\begin{document}
+\begin{tikzpicture}[every edge quotes/.style={fill=white,font=\footnotesize}]
+
+
+%======================================================================
+% ------------------------------ preparazione foglio di lavoro ----------------------------------------------------
+\def\paperHeight{29.7cm}
+\def\paperWidth{42cm}
+\fill[white] (0,0) rectangle ++ (\paperWidth,\paperHeight);
+%======================================================================
+
+
+
+%======================================================================
+% ------------------------------  Nodi testuali   -----------------------------------------------------------------------
+%
+    \node[align=center, text width=\paperWidth-3.5cm] at (\paperWidth/2,\paperHeight/2) {\huge \dedica };
+   
+%======================================================================
+
+
+
+
+\end{tikzpicture}
+\end{document}

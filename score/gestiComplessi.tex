@@ -1,0 +1,209 @@
+\documentclass[tikz, a3paper, landscape, border=0]{standalone}
+
+\usepackage{newpxtext}
+\usepackage{newpxmath}
+\usepackage{fontspec}
+\usepackage{hyperref}  
+ \usepackage[utf8]{inputenc}  
+\catcode`\|12
+% -----------------------------
+\usetikzlibrary{calc}
+\usetikzlibrary{intersections}
+% -----------------------------
+\usepackage{comandi}
+% -----------------------------
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary {decorations.text}
+\usetikzlibrary { decorations.pathmorphing, decorations.pathreplacing, decorations.shapes}
+\usetikzlibrary{matrix}
+\usetikzlibrary {quotes} 
+ 
+\newcommand{\titolo}{Indicazioni Semiografiche}
+ 
+ % Definisci una macro per il testo
+\newcommand{\testoPreliminare}{
+Il brano ha una durata di 8 minuti.
+
+Esistono due forze contrapposte che agiscono sul flusso musicale: una forza centripeta che lo spinge verso il centro, rappresentato dal gesto conclusivo, e una forza centrifuga che lo spinge verso la periferia della circonferenza.
+
+La catena di retroazione che va dall'ottavo al sesto gesto si colloca al di fuori della circonferenza, ed è percorribile solo a partire dal secondo giro.
+}
+
+\newcommand{\gestoDurateTempo}{
+Ogni gesto è racchiuso da una circonferenza tratteggiata, all'interno della quale sono indicati un intervallo di durata e un range dinamico.
+
+Il termine \textit{epsylon} rappresenta il più piccolo intervallo temporale necessario per l'esecuzione del gesto.
+}
+\newcommand{\lineefrecce}{
+I gesti sono interconnessi tramite percorsi rappresentati da frecce, che indicano la direzione del flusso. Lo spessore delle linee differenzia i percorsi in base alla loro percorribilità: quelli con linee più spesse rappresentano le traiettorie che vengono percorse più frequentemente.
+}
+
+\newcommand{\lineeFeedback}{Il flusso complessivo è simile a quello di un circuito di un filtro, in cui alcuni rami di \textit{feedback} presentano frecce orientate in senso opposto rispetto al flusso temporale del brano.
+
+I percorsi segnati da linee più spesse vanno attraversati un maggior numero di volte, variando progressivamente il gesto e simulando il meccanismo di feedback.
+
+I rami che ruotano attorno ai gesti sono anch'essi dei rami di feedback.}
+
+
+
+
+
+\begin{document}
+\begin{tikzpicture}[every edge quotes/.style={fill=white,font=\footnotesize}]
+
+
+%======================================================================
+% ------------------------------ preparazione foglio di lavoro ----------------------------------------------------
+\def\paperHeight{29.7cm}
+\def\paperWidth{42cm}
+\fill[white] (0,0) rectangle ++ (\paperWidth,\paperHeight);
+%\draw[step=.01cm, gray, line width = 0.01pt] (0, 0) grid (\paperWidth, \paperHeight); 
+%\draw[step=.1cm, gray, very thin] (0, 0) grid (\paperWidth, \paperHeight); 
+%\draw[step=.5cm, gray, ultra thin] (0, 0) grid (\paperWidth, \paperHeight);
+%\draw[step=1cm, black, very thin] (0, 0) grid (\paperWidth, \paperHeight); 
+%\draw[black, very thick, dotted] (\paperWidth/2,\paperHeight) -- (\paperWidth/2,0);
+%======================================================================
+
+
+
+%======================================================================
+% Posizionamento delle carte in cerchio
+\def\circleRadius{11cm}  % Regola questo valore in base alle tue esigenze
+\def\numCards{11}  % Numero di carte nel cerchio principale
+\def\angleOffset{30}  % Offset angolare per ruotare l'intero layout
+% ------------------
+\def\pointWidth{3pt}
+% ------------------
+\def\minimumSize{1.5pt}
+% ------------------
+\def\arrowWidth{6pt}
+\def\arrowLength{9pt}
+\def\sumWidth{1pt}
+\def\lineWidthMore{3pt}
+\def\lineWidthMedium{\lineWidthMore-1.5}
+\def\lineWidth{\lineWidthMore-2.5pt}
+\def\arrowWidthMore{9pt}
+\def\arrowLengthMore{12pt}
+\def\sumWidthMore{3pt}
+\def\roundedCorners{8pt}
+% ------------------
+\def\cardRadius{2.1cm} 
+\def\cardRadiusTwo{\cardRadius + .5cm} 
+% ------------------
+\def\battenteheight{.25}
+\def\battentewidth{1.3}
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\cardtwo{\paperWidth/5}{\paperHeight-\paperHeight/3.5}{\cardRadius}{gesto}{\cardRadiusTwo}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{gesto}
+\updateBattentePosition{-.35}{.02}
+\battente{gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{45}
+\node (dur) at ($(gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 30 s $\sim$};
+\node (amp) at ($(gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf} $\sim$ \textit{ff}};
+
+    \gettikzxy{(gesto)}{\bx}{\by}
+\cardtwo{\bx}{\by-14cm}{\cardRadius}{gesto2}{\cardRadiusTwo}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{gesto2}
+\updateBattentePosition{-.35}{.02}
+\battente{gesto2}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{45}
+\node (dur) at ($(gesto2) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 30 s $\sim$};
+\node (amp) at ($(gesto2) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf} $\sim$ \textit{ff}};
+    \gettikzxy{(gesto2)}{\bbx}{\bby}
+\circleAroundReversed{\bbx}{\bby}{\cardRadius}{gesto2}{\cardRadiusTwo}{1}{0}{\lineWidthMore}
+    \gettikzxy{(gesto2)}{\bbx}{\bby}
+
+\circleAroundReversed{\bbx}{\bby}{\cardRadius}{card4}{\cardRadiusTwo}{1}{0}{\lineWidthMore}
+    \gettikzxy{(gesto2)}{\bbx}{\bby}
+
+ \matrix (tableLineeFrecce) [
+    matrix of nodes,
+    nodes={align=center, text width=2.75cm, minimum height=1.75cm, inner sep = 0pt},
+    row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes in empty cells
+] at (\bx,\by-7cm) {
+    |[font=\bfseries]| & |[font=\bfseries]|   & |[font=\bfseries]|  \\
+    |[font=\bfseries]| &  &   \\
+    |[font=\bfseries]| &  &   \\
+    };
+%\draw [rounded corners = 2pt](tableLineeFrecce-1-1.north west) rectangle (tableLineeFrecce-3-3.south east);
+
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and 1 step 10mm with {\arrow[scale=1.3]{stealth}}}] {(tableLineeFrecce-1-1.center) -- (tableLineeFrecce-1-3.center)};
+\draw[line width = \lineWidthMore] (tableLineeFrecce-1-1.center) -- (tableLineeFrecce-1-3.center);
+
+\draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and 1 step 10mm with {\arrow[scale=1.3]{stealth}}}] {(tableLineeFrecce-2-1.center) -- (tableLineeFrecce-2-3.center)};
+\draw[line width = \lineWidthMedium] (tableLineeFrecce-2-1.center) -- (tableLineeFrecce-2-3.center);
+
+\draw[line width = \lineWidth] decorate[decoration={markings, mark=between positions 0.3 and 1 step 10mm with {\arrow[scale=1.2]{stealth}}}] {(tableLineeFrecce-3-1.center) -- (tableLineeFrecce-3-3.center)};
+\draw[line width = \lineWidth] (tableLineeFrecce-3-1.center) -- (tableLineeFrecce-3-3.center);
+
+
+
+
+
+
+%======================================================================
+% ------------------------------  Nodi testuali   -----------------------------------------------------------------------
+%
+
+    \node[align=center, below] at (\paperWidth/2,\paperHeight-1.4cm) {\fontsize{40}{50}\selectfont \titolo};
+    \node[align=center,below,text width=\paperWidth-\paperWidth/5] at (\paperWidth/2,\paperHeight-3.7cm) {\testoPreliminare };
+ 
+     \gettikzxy{(gesto)}{\bx}{\by}   
+   \node[align=center, text width=\paperWidth-\paperWidth/2] at (\paperWidth/2,\by) {\gestoDurateTempo};
+   
+    \gettikzxy{(tableLineeFrecce)}{\bx}{\by}
+   \node[align=center, text width=\paperWidth-\paperWidth/2] at (\paperWidth/2,\by) {\lineefrecce};
+    \gettikzxy{(gesto2)}{\bx}{\by}
+   \node[align=center, text width=\paperWidth-\paperWidth/2] at (\paperWidth/2,\by) {\lineeFeedback};
+%    \node[minimum height=1.5cm, align=center, below, text width=\paperWidth/2-3.5cm] (testoSemiografia) at (\paperWidth/2,\paperHeight-\paperHeight/6) {\testoSemiografia};
+%    \node[minimum height=1.5cm, align=center, below, text width=\paperWidth/2-5.5cm] (testoSemiografiaTwo) at (\paperWidth/2,\paperHeight-\paperHeight/3.85) {\testoSemiografiaTwo};
+
+
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione Licence ----------------------------------------------------------------
+% 
+\node at (38,1) {\includegraphics[width=.8cm]{CC-license/cc.pdf}};  % Logo CC
+\node at (39,1) {\includegraphics[width=.8cm]{CC-license/by.pdf}};  % Logo BY
+\node at (40,1) {\includegraphics[width=.8cm]{CC-license/nc.pdf}};  % Logo NC
+\node at (41,1) {\includegraphics[width=.8cm]{CC-license/nd.pdf}};  % Logo ND
+% ----------------------------	
+% Aggiungi un link ipertestuale nella tikzpicture
+\node[left] at (41.5,3.5) {\href{https://github.com/DMGiulioRomano/strappi}{Jolt}};
+\node[left] at (41.5,2.75) {\href{https://github.com/DMGiulioRomano}{Giulio Romano De Mattia}};
+\node[left] at (41.5,2) {\href{https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1}{Licensed under CC BY-NC-ND}};
+%======================================================================
+
+
+\end{tikzpicture}
+\end{document}
+
+
+

@@ -1,0 +1,344 @@
+\documentclass[tikz, a3paper, landscape, border=0]{standalone}
+
+\usepackage{newpxtext}
+\usepackage{newpxmath}
+\usepackage{fontspec}
+\usepackage{hyperref}  
+ \usepackage[utf8]{inputenc}  
+\catcode`\|12
+% -----------------------------
+\usetikzlibrary{calc}
+\usetikzlibrary{intersections}
+% -----------------------------
+\usepackage{comandi}
+% -----------------------------
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary {decorations.text}
+\usetikzlibrary { decorations.pathmorphing, decorations.pathreplacing, decorations.shapes}
+\usetikzlibrary{matrix}
+\usetikzlibrary {quotes} 
+ 
+\newcommand{\titolo}{Indicazioni Preliminari}
+ 
+ % Definisci una macro per il testo
+\newcommand{\testoPreliminare}{Il brano è concepito come un processo di scoperta dello strumento da parte del percussionista, il quale, attraverso un'esplorazione controllata, individua le possibili micro-variazioni timbriche prodotte. Tali variazioni risultano significative in relazione ai gesti eseguiti precedentemente e a quelli che seguiranno, creando una continuità e un'interdipendenza tra le azioni sonore, dove ogni gesto influenza e viene influenzato dalle perturbazioni timbriche circostanti.}
+
+\newcommand{\titoloDue}{Semiografia}
+
+\newcommand{\testoSemiografia}{Le seguenti griglie spiegano come interpretare i gesti scomponendo i vari \mbox{elementi} in oggetti primitivi a partire dalla distinzione dei simboli di:}
+
+\newcommand{\testoSemiografiaTwo}{Unendo le primitive relative all'impugnatura e al punto di percussione si introduce il gesto dell'acciaccatura.}
+
+\newcommand{\Modalitadimpugnatura}{(1) La modalità \textit{Ordinaria/Capovolta} si riferisce alla campana con la parte concava del corpo rivolta rispettivamente verso l'alto/il basso. La tipologia \textit{Libera/Bloccata} si riferisce all'impugnatura della mano che permette alla campana di vibrare o di essere letteralmente bloccata in modo da non permettere una risonanza.}
+
+\newcommand{\Puntodipercussionedelbattente}{(2) La tipologia Libera/Bloccata in questo caso si riferisce alla superficie del battente che entra in contatto con il corpo della campana ed è rispettivamente legno/feltro.}
+
+
+\newcommand{\Direzionidellacciaccatura}{(3) L'acciaccatura è da intendersi come smorzamento della risonanza della campana nel tempo. La tipologia Libera/Bloccata definisce la condizione del gesto partendo rispettivamente da libera andando a bloccarla e viceversa. La campana permette uno smorzamento graduale, mentre il battente prevede una discontinuità nell'alternanza tra legno e feltro. Il tempo di smorzamento è variabile in base alle relazioni tra i gesti.}
+
+\newcommand{\Puntidipercussionedellacampanainrelazionealbattente}{(4) Questi sono i tre gesti che idealmente permettono di eccitare in maniera differente i modi di vibrazione della campana nonostante questi siano difficilmente controllabili data la modalità artigianale di fabbricazione dello strumento.}
+
+\newcommand{\UlterioriGesti}{(5) Lo \textit{Strofinato} si riferisce al movimento ciclico attorno la campana per generare un suono continuo ma mobile variando la quantità di pressione e di velocità. Il \textit{Trattenuto} consiste nel percuotere il corpo dello strumento mantenendo il battente attaccato alla campana (senza il rimbalzo successivo necessario per la risonanza, smorzando quest'ultima col corpo del battente).}
+
+\newcommand{\void}{* \textit{Void} si riferisce a tutte le possibili condizioni correlate non specificate poiché trascurabili. \' E interpretabile come \textit{neutro}.}
+
+
+
+\begin{document}
+\begin{tikzpicture}[every edge quotes/.style={fill=white,font=\footnotesize}]
+
+
+%======================================================================
+% ------------------------------ preparazione foglio di lavoro ----------------------------------------------------
+\def\paperHeight{29.7cm}
+\def\paperWidth{42cm}
+\fill[white] (0,0) rectangle ++ (\paperWidth,\paperHeight);
+%\draw[step=.01cm, gray, line width = 0.01pt] (0, 0) grid (\paperWidth, \paperHeight); 
+%\draw[step=.1cm, gray, very thin] (0, 0) grid (\paperWidth, \paperHeight); 
+%\draw[step=.5cm, gray, ultra thin] (0, 0) grid (\paperWidth, \paperHeight);
+%\draw[step=1cm, black, very thin] (0, 0) grid (\paperWidth, \paperHeight); 
+%\draw[black, very thick, dotted] (\paperWidth/2,\paperHeight) -- (\paperWidth/2,0);
+%======================================================================
+
+
+
+%======================================================================
+% Posizionamento delle carte in cerchio
+\def\circleRadius{11cm}  % Regola questo valore in base alle tue esigenze
+\def\numCards{11}  % Numero di carte nel cerchio principale
+\def\angleOffset{30}  % Offset angolare per ruotare l'intero layout
+% ------------------
+\def\pointWidth{3pt}
+% ------------------
+\def\minimumSize{1.5pt}
+% ------------------
+\def\lineWidth{1.1pt}
+\def\arrowWidth{6pt}
+\def\arrowLength{9pt}
+\def\sumWidth{1pt}
+\def\lineWidthMore{2.5pt}
+\def\arrowWidthMore{9pt}
+\def\arrowLengthMore{12pt}
+\def\sumWidthMore{3pt}
+\def\roundedCorners{8pt}
+% ------------------
+\def\cardRadius{2.1cm} 
+\def\cardRadiusTwo{\cardRadius + .5cm} 
+% ------------------
+\def\battenteheight{.25}
+\def\battentewidth{1.3}
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% ------------------------------ Tabella Campana  ------------------------------------------------------------------
+%
+ \matrix (tableCampana) [
+    matrix of nodes,
+    nodes={align=center, text width=2.75cm, minimum height=1.75cm, inner sep = 0pt},
+    row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes in empty cells
+] at (\paperWidth/6,\paperHeight/1.6) {
+    |[font=\bfseries]| & |[font=\bfseries]|  Libera & |[font=\bfseries]|  Bloccata\\
+    |[font=\bfseries]| Ordinaria &  &   \\
+    |[font=\bfseries]| Capovolta  &  &   \\
+    };
+
+\node[align=center, text width=10cm, minimum height=.75cm,  inner sep = 0pt, below=1cm] at (tableCampana-3-2) {\small Modalità di impugnatura (1)};
+% Disegna i bordi esterni
+\draw [rounded corners = 2pt](tableCampana-1-1.north west) rectangle (tableCampana-3-3.south east);
+
+\campana{0}{0.05}{.8}{ordinaria}{libera}{tableCampana-2-2}
+\campana{0}{0.05}{.8}{ordinaria}{bloccata}{tableCampana-2-3}
+\campana{0}{.1}{.8}{capovolta}{libera}{tableCampana-3-2}
+\campana{0}{.1}{.8}{capovolta}{bloccata}{tableCampana-3-3}
+%======================================================================
+
+
+
+
+%======================================================================
+% ------------------------------ Tabella Battente  --------------------------------------------------------------------
+%
+ \matrix (tableBattente) [
+    matrix of nodes,
+    nodes={align=center, text width=2.75cm, minimum height=1.75cm, inner sep = 0pt},
+    row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes in empty cells
+] at ($(tableCampana) + (\paperWidth/1.5, 1.035cm)$) {
+    |[font=\bfseries]| & |[font=\bfseries]|  Libera & |[font=\bfseries]|  Bloccata\\
+    |[font=\bfseries]| Void *&  &   \\
+    };
+\node[align=center, text width=10cm, minimum height=.75cm,  inner sep = 0pt, below=1cm] at (tableBattente-2-2) {\small Punto di percussione del battente (2)};
+
+% Disegna i bordi esterni
+\draw[rounded corners = 2pt] (tableBattente-1-1.north west) rectangle (tableBattente-2-3.south east);
+\updateBattentePosition{0}{0.1}
+\battente{tableBattente-2-2}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{0}
+\battente{tableBattente-2-3}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{0}
+%======================================================================
+
+
+
+
+
+
+
+
+%======================================================================
+% ------------------------------ Tabella Acciaccatura ---------------------------------------------------------------
+%
+\matrix (tableAcciaccatura) [
+    matrix of nodes,
+    nodes={align=center, text width=2.75cm, minimum height=1.75cm, inner sep = 0pt},
+    row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes in empty cells
+] at (\paperWidth/2,\paperHeight-\paperHeight/2.45) {
+    |[font=\bfseries]| & |[font=\bfseries]| Libera & |[font=\bfseries]| Bloccata \\
+    |[font=\bfseries]| Campana &  &   \\
+    |[font=\bfseries]| Battente &  &   \\
+    };
+\node[align=center, text width=10cm, minimum height=.75cm,  inner sep = 0pt, below=1cm] at (tableAcciaccatura-3-2) {\small Direzioni dell'acciaccatura (3)};
+    
+% Disegna i bordi esterni
+\draw [rounded corners = 2pt] (tableAcciaccatura-1-1.north west) rectangle (tableAcciaccatura-3-3.south east);
+
+\campanaAccZ{0}{0.05}{.8}{libera}{tableAcciaccatura-2-2}
+\campanaAccZ{0.015}{0.05}{.8}{bloccata}{tableAcciaccatura-2-3}
+
+\updateBattenteAccPosition{0.005}{.1}
+\battenteAcc{tableAcciaccatura-3-2}{\battenteStartAccX}{\battenteStartAccY}{\battentewidth}{\battenteheight}{aperto}{0}
+\updateBattenteAccPosition{0.015}{.1}
+\battenteAcc{tableAcciaccatura-3-3}{\battenteStartAccX}{\battenteStartAccY}{\battentewidth}{\battenteheight}{bloccato}{0}
+%======================================================================
+
+
+%======================================================================
+% ------------------------------ Tabella Campana - battente  -----------------------------------------------------
+%
+ \matrix (tableBattenteCampana) [
+    matrix of nodes,
+    nodes={align=center, text width=3cm, minimum height=2cm, inner sep = 0pt},
+    row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes in empty cells
+] at (\paperWidth/2,\paperHeight/3.5) {
+    |[font=\bfseries]| & |[font=\bfseries]|  Void *\\
+    |[font=\bfseries]| Dall'alto & \\
+    |[font=\bfseries]| Sulla pancia  & \\
+    |[font=\bfseries]| De dentro  & \\
+    };
+
+\gettikzxy{(tableBattenteCampana-4-2)}{\cbx}{\cby}
+  
+\node[align=center, text width=10cm, minimum height=1cm,  inner sep = 0pt, below=1cm] at (\paperWidth/2,\cby) {\small Punti di percussione della campana in relazione al battente (4)};
+
+% Disegna i bordi esterni
+\draw [rounded corners = 2pt] (tableBattenteCampana-1-1.north west) rectangle (tableBattenteCampana-4-2.south east);
+
+\campana{0}{-.3}{.8}{ordinaria}{libera}{tableBattenteCampana-2-2}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{tableBattenteCampana-3-2}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{tableBattenteCampana-4-2}
+
+\updateBattentePosition{-.35}{.02}
+\battente{tableBattenteCampana-2-2}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{45}
+\updateBattentePosition{-.45}{-.3}
+\battente{tableBattenteCampana-3-2}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{0}
+\updateBattentePosition{0.36}{-.4}
+\battente{tableBattenteCampana-4-2}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{80}
+\draw[line width = .8pt] ($(tableBattenteCampana-4-2)+(-.7,+.1)$) -- ($(tableBattenteCampana-4-2)+(+.7,+.1)$);
+
+%======================================================================
+
+
+
+
+
+%======================================================================
+% ------------------------------ Tabella Gesti Aggiuntivi  -----------------------------------------------------
+%
+ \matrix (tableStrofinato) [
+    matrix of nodes,
+    nodes={align=center, text width=3cm, minimum height=2.5cm, inner sep = 0pt},
+    row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes in empty cells
+] at (\paperWidth-\paperWidth/6,\paperHeight/3) {
+    |[font=\bfseries]| & |[font=\bfseries]|  Void *\\
+    |[font=\bfseries]| Strofinato & \\
+    |[font=\bfseries]| Trattenuto  & \\
+    };
+
+\gettikzxy{(tableStrofinato-3-2)}{\cbx}{\cby}
+  
+\node[align=center, text width=10cm, minimum height=1cm,  inner sep = 0pt, below=1cm] at (\paperWidth-\paperWidth/6,\cby) {\small Gesti ulteriori (5)};
+
+% Disegna i bordi esterni
+\draw [rounded corners = 2pt] (tableStrofinato-1-1.north west) rectangle (tableStrofinato-3-2.south east);
+
+\campana{0}{-.3}{.8}{ordinaria}{libera}{tableStrofinato-2-2}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{tableStrofinato-3-2}
+
+
+\updateBattentePosition{0}{.02}
+\battente{tableStrofinato-2-2}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{60}
+\strofinato{tableStrofinato-2-2}{.8}{.1}{-1.45}{.4}
+
+\updateBattentePosition{0}{.23}
+\battente{tableStrofinato-3-2}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{aperto}{0}
+\draw[arrows = {-Latex}, double distance=1.2pt] ($(tableStrofinato-3-2) + (0,1.2)$) -- ($(tableStrofinato-3-2) + (0,.33)$);
+
+
+%======================================================================
+
+
+
+
+
+
+
+%======================================================================
+% ------------------------------  Nodi testuali   -----------------------------------------------------------------------
+%
+    \node[align=center,below] at (\paperWidth/2,\paperHeight-1.4cm) {\fontsize{40}{50}\selectfont \titolo};
+    \node[align=center,below, text width=\paperWidth-3.5cm] at (\paperWidth/2,\paperHeight-3.7cm) {\testoPreliminare };
+    \node[minimum height=1.5cm, align=center, below, text width=\paperWidth/2-3.5cm] (testoSemiografia) at (\paperWidth/2,\paperHeight-\paperHeight/6) {\testoSemiografia};
+    \node[minimum height=1.5cm, align=center, below, text width=\paperWidth/2-5.5cm] (testoSemiografiaTwo) at (\paperWidth/2,\paperHeight-\paperHeight/3.85) {\testoSemiografiaTwo};
+%
+% ------------
+    \node[minimum height=1.5cm, align=center, below, text width=\paperWidth/4] (testoModalitadimpugnatura) at ($(tableCampana-3-2)-(0,2.25cm)$) {\Modalitadimpugnatura};
+% ------------
+    \node[minimum height=1.5cm, align=center, below, text width=\paperWidth/4] (testoPuntodipercussionedelbattente) at ($(testoModalitadimpugnatura)-(0,1.4cm)$) {\Puntodipercussionedelbattente};
+% ------------
+     \node[minimum height=1.5cm, align=center, below, text width=\paperWidth/4] (Direzionidellacciaccatura) at ($(testoPuntodipercussionedelbattente)-(0,1cm)$) {\Direzionidellacciaccatura};
+% ------------
+     \node[minimum height=1.5cm, align=center, below, text width=\paperWidth/4] (Puntidipercussionedellacampanainrelazionealbattente) at ($(Direzionidellacciaccatura)-(0,1.8cm)$) {\Puntidipercussionedellacampanainrelazionealbattente};
+% ------------
+     \node[minimum height=1.5cm, align=center, below, text width=\paperWidth/4] (UlterioriGesti) at ($(Puntidipercussionedellacampanainrelazionealbattente)-(0,1.2cm)$) {\UlterioriGesti};
+% ------------
+    \node[minimum height=1.5cm, align=center, below, text width=\paperWidth/3-1cm] (void) at ($(tableAcciaccatura-3-2)+(0,-13cm)$) {\void};
+
+
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+%======================================================================
+% ------------------------------  Frecce  --------------------------------------------------------------------------------
+%
+  \node (newTestoSemiografia) at (testoSemiografia) [above=.2] {};
+\draw (testoSemiografia) edge ["Campana", ->] (tableCampana-1-2.north);
+\draw (testoSemiografia) edge ["Battente", ->] (tableBattente-1-2.north);
+  \node (newTableAcciaccaturaWest) at (tableAcciaccatura-2-1.west) [above=.2] {};
+  \node (newTableAcciaccaturaEast) at (tableAcciaccatura-2-3.east) [above=.2] {};
+\draw (tableCampana-2-3.east) edge ["Acciaccatura", ->] (newTableAcciaccaturaWest);
+\draw (tableBattente-2-1.west) edge ["Acciaccatura", ->] (newTableAcciaccaturaEast);
+
+%======================================================================
+
+
+
+
+
+
+%======================================================================
+% -----------------------------	definizione Licence ----------------------------------------------------------------
+% 
+\node at (38,1) {\includegraphics[width=.8cm]{CC-license/cc.pdf}};  % Logo CC
+\node at (39,1) {\includegraphics[width=.8cm]{CC-license/by.pdf}};  % Logo BY
+\node at (40,1) {\includegraphics[width=.8cm]{CC-license/nc.pdf}};  % Logo NC
+\node at (41,1) {\includegraphics[width=.8cm]{CC-license/nd.pdf}};  % Logo ND
+% ----------------------------	
+% Aggiungi un link ipertestuale nella tikzpicture
+\node[left] at (41.5,3.5) {\href{https://github.com/DMGiulioRomano/strappi}{Jolt}};
+\node[left] at (41.5,2.75) {\href{https://github.com/DMGiulioRomano}{Giulio Romano De Mattia}};
+\node[left] at (41.5,2) {\href{https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1}{Licensed under CC BY-NC-ND}};
+%======================================================================
+
+
+\end{tikzpicture}
+\end{document}
+
+
+

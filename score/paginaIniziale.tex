@@ -1,0 +1,63 @@
+\documentclass[tikz, a3paper, landscape, border=0]{standalone}
+
+\usepackage{newpxtext}
+\usepackage{newpxmath}
+\usepackage{fontspec}
+\usepackage{hyperref}  
+ \usepackage[utf8]{inputenc}  
+\catcode`\|12
+% -----------------------------
+\usetikzlibrary{calc}
+\usetikzlibrary{intersections}
+% -----------------------------
+\usepackage{comandi}
+% -----------------------------
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary {decorations.text}
+\usetikzlibrary { decorations.pathmorphing, decorations.pathreplacing, decorations.shapes}
+\usetikzlibrary{matrix}
+\usetikzlibrary {quotes} 
+
+\newcommand{\autore}{Giulio Romano De Mattia}
+
+\newcommand{\titolo}{Jolt}
+
+\newcommand{\sottoTitolo}{per Campana Tibetana e Live Electronics}
+
+
+
+\begin{document}
+\begin{tikzpicture}[every edge quotes/.style={fill=white,font=\footnotesize}]
+
+
+
+%======================================================================
+% ------------------------------ preparazione foglio di lavoro ----------------------------------------------------
+\def\paperHeight{29.7cm}
+\def\paperWidth{42cm}
+\fill[white] (0,0) rectangle ++ (\paperWidth,\paperHeight);
+%\draw[step=.01cm, gray, line width = 0.01pt] (0, 0) grid (\paperWidth, \paperHeight); 
+%\draw[step=.1cm, gray, very thin] (0, 0) grid (\paperWidth, \paperHeight); 
+%\draw[step=.5cm, gray, ultra thin] (0, 0) grid (\paperWidth, \paperHeight);
+%\draw[step=1cm, black, very thin] (0, 0) grid (\paperWidth, \paperHeight); 
+%\draw[black, very thick, dotted] (\paperWidth/2,\paperHeight) -- (\paperWidth/2,0);
+%======================================================================
+
+
+
+
+%======================================================================
+% ------------------------------  Nodi testuali   -----------------------------------------------------------------------
+%
+   \node[align=center] at (\paperWidth/2,\paperHeight-\paperHeight/2.6) {\fontsize{20}{30}\selectfont \autore};
+    \node[align=center] at (\paperWidth/2,\paperHeight/2+\paperHeight/50) {\fontsize{80}{90}\selectfont \titolo};
+    \node[align=center, text width=\paperWidth-3.5cm] at (\paperWidth/2,\paperHeight-\paperHeight/1.75) {\fontsize{20}{30}\selectfont \sottoTitolo };
+   
+%======================================================================
+
+
+
+
+\end{tikzpicture}
+\end{document}
+
