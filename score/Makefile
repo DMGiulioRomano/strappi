@@ -6,8 +6,8 @@ pdf:
 	done
 
 pdfUnite:
-	pdfunite titolo.pdf dedica.pdf legenda.pdf gestiComplessi.pdf partitura.pdf De-Mattia-Jolt.pdf
-	rm -f titolo.pdf dedica.pdf legenda.pdf gestiComplessi.pdf partitura-circolare.pdf partitura.pdf
+	pdfunite 1-titolo.pdf 2-dedica.pdf 4-partitura.pdf generale.pdf 5-legenda.pdf comportamenti.pdf  De-Mattia-Jolt.pdf
+	rm -f 1-titolo.pdf 2-dedica.pdf 5-legenda.pdf 6-gestiComplessi.pdf 3-partitura-circolare.pdf 4-partitura.pdf comportamenti.pdf generale.pdf 0-comportamento1.pdf
 
 # Pulizia dei file di output
 clean:

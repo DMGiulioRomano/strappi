@@ -18,8 +18,10 @@
 %\draw[step=.1cm, gray, very thin] (0, 0) grid (\paperWidth, \paperHeight); % Griglia per visualizzare lo spazio A3
 %\draw[step=1cm, black, very thin] (0, 0) grid (\paperWidth, \paperHeight); % Griglia per visualizzare lo spazio A3
 %======================================================================
-    \node at (\paperWidth/2,\paperHeight/2) {\includegraphics[trim=300 400 700 400, clip]{partitura-circolare.pdf}};
+    \node at (\paperWidth/2,\paperHeight/2) {\includegraphics[trim=300 400 700 400, clip]{3-partitura-circolare.pdf}};
 
+    \node[align=right, text width = 8cm] at (\paperWidth-5,\paperHeight-3) {\fontsize{50}{60}\selectfont Jolt};
+    \node[align=right, text width = 8cm] at (\paperWidth-5,\paperHeight-4.5) {\fontsize{20}{30}\selectfont Giulio Romano De Mattia};
 
 %======================================================================
 % -----------------------------	definizione Licence ----------------------------------------------------------------
@@ -28,11 +30,6 @@
 \node at (39,1) {\includegraphics[width=.8cm]{CC-license/by.pdf}};  % Logo BY
 \node at (40,1) {\includegraphics[width=.8cm]{CC-license/nc.pdf}};  % Logo NC
 \node at (41,1) {\includegraphics[width=.8cm]{CC-license/nd.pdf}};  % Logo ND
-% ----------------------------	
-% Aggiungi un link ipertestuale nella tikzpicture
-\node[left] at (41.5,3.5) {\href{https://github.com/DMGiulioRomano/strappi}{Jolt}};
-\node[left] at (41.5,2.75) {\href{https://github.com/DMGiulioRomano}{Giulio Romano De Mattia}};
-\node[left] at (41.5,2) {\href{https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1}{Licensed under CC BY-NC-ND}};
 %======================================================================
 
 \end{tikzpicture}

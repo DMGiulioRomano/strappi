@@ -1,0 +1,395 @@
+
+
+\documentclass{book}
+%\usepackage{newpxtext}
+%\usepackage{newpxmath}
+\usepackage[a3paper, left=3cm, right=3cm, top=3cm, bottom=2cm]{geometry}  % Imposta i margini
+\usepackage{fontspec}
+\usepackage{hyperref}  
+ \usepackage[utf8]{inputenc}  
+\catcode`\|12
+% -----------------------------
+\usepackage{comandi}
+\usepackage{wrapfig}
+% -----------------------------
+%\usetikzlibrary{calc}
+%\usetikzlibrary{intersections}
+% -----------------------------
+%\usetikzlibrary{decorations.markings}
+%\usetikzlibrary {decorations.text}
+%\usetikzlibrary { decorations.pathmorphing, decorations.pathreplacing, decorations.shapes}
+%\usetikzlibrary{matrix}
+%\usetikzlibrary {quotes} 
+% \usepackage{pgf}
+\usepackage{ragged2e}  % Pacchetto per giustificare il testo
+
+
+\pagestyle{empty}
+\usepackage{parskip}  % Rimuove il rientro dei paragrafi e gestisce lo spazio verticale
+
+\begin{document}
+
+%======================================================================
+% Posizionamento delle carte in cerchio
+\def\circleRadius{11cm}  % Regola questo valore in base alle tue esigenze
+\def\numCards{11}  % Numero di carte nel cerchio principale
+\def\angleOffset{30}  % Offset angolare per ruotare l'intero layout
+% ------------------
+\def\pointWidth{3pt}
+% ------------------
+\def\minimumSize{1.5pt}
+% ------------------
+\def\arrowWidth{6pt}
+\def\arrowLength{9pt}
+\def\sumWidth{1pt}
+\def\lineWidthMore{3pt}
+\def\lineWidthMedium{\lineWidthMore-1.5}
+\def\lineWidth{\lineWidthMore-2.5pt}
+\def\arrowWidthMore{9pt}
+\def\arrowLengthMore{12pt}
+\def\sumWidthMore{3pt}
+\def\roundedCorners{8pt}
+% ------------------
+\def\cardRadius{2.1cm} 
+\def\cardRadiusTwo{\cardRadius + .5cm} 
+% ------------------
+\def\battenteheight{.25}
+\def\battentewidth{1.3}
+%======================================================================
+
+
+
+\section*{\centering Ingresso}
+%======================================================================
+% ---------------------------------------------		card 1 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+	\campana{0}{-.3}{.8}{capovolta}{libera}{Gesto}
+\updateBattentePosition{0.1}{0}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{60}
+\strofinato{Gesto}{.65}{.1}{-1.185}{.4}
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 30 s $\sim$};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf} $\sim$ \textit{ff}};
+    \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify  Partenza lenta. Microeventi intervallati da respiri. Il palmo della mano funge da coperchio. I parametri di variazione: continuità dell'azione, punto di frizione (più centrale o più esterno), e il movimento del palmo (variazione del rumore intonato emesso dalla risonanza della campana).
+\end{minipage}
+\begin{figure}[h!]
+    \begin{flushleft}
+    \includegraphics[trim=1cm 1cm 0cm 4cm, clip, width=.9\textwidth]{0-comportamento1.pdf}    \end{flushleft}
+\end{figure}
+%======================================================================
+
+
+
+
+%======================================================================
+% ---------------------------------------------		card 2 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+	\campana{0}{-.3}{.8}{capovolta}{libera}{Gesto}
+\updateBattentePosition{0}{.23}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{0}
+\draw[arrows = {-Latex}, double distance=1.2pt] ($(Gesto) + (0,1.2)$) -- ($(Gesto) + (0,.33)$);
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize epsylon};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf}};
+    \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify Conclusione di un discorso iniziato precedentemente; presentarlo in sincope ad una pulsazione utilizzata per scandire alcuni accenti del gesto precedente. Sicuro e seguito da un respiro.
+\end{minipage}
+%======================================================================
+
+
+%======================================================================
+% ---------------------------------------------		card 3 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+\campana{0}{-.3}{.8}{ordinaria}{bloccata}{Gesto}
+\updateBattentePosition{0}{.02}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{60}
+\strofinato{Gesto}{.8}{.1}{-1.45}{.4}
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 30 s $\sim$};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf} $\sim$ \textit{f}};
+    \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify Variazione del primo gesto. Movimento all'interno e all'esterno con il battente sfregato lateralmente, e sul bordo con la parte inferiore del battente. \' E necessario cambiare il verso della rotazione in maniera inaspettata. Necessita una sempre maggiore articolazione dei comportamenti. 
+\end{minipage}
+%======================================================================
+
+
+
+
+
+
+%\null
+%\quad  % Aggiunge uno spazio fisso tra i minipage
+
+
+
+
+\section*{\centering Sezione I}
+
+%======================================================================
+% ---------------------------------------------		card 4 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+\campana{0}{-.3}{.8}{ordinaria}{bloccata}{Gesto}
+\updateBattentePosition{-.35}{.02}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{45}
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize eps $\sim$ 2 s};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mp} $\sim$ \textit{mf}};
+
+    \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify Variare da armonico a fondamentale. L'armonico si ottiene fermando la campana in tre punti equidistanti e rilasciare subito dopo l'eccitazione. 
+\end{minipage}
+%======================================================================
+
+
+
+
+%======================================================================
+% ---------------------------------------------		card 5 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{Gesto}
+\updateBattenteAccPosition{0}{.23}
+\battenteAcc{Gesto}{\battenteStartAccX}{\battenteStartAccY}{\battentewidth}{\battenteheight}{aperto}{0}
+\draw[arrows = {-Latex}, double distance=1.2pt] ($(Gesto) + (0,1.2)$) -- ($(Gesto) + (0,.33)$);
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize epsylon};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{pp} $\sim$ \textit{mf}};
+    \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify Variare presenza della mano che esegue l'acciaccatura, da poche dita all'intero pugno, per chiudere gradualmente la campana (variazione rumore intonato simile a primo gesto). L'acciaccatura nelle ripetizioni sarà sempre più dilatata temporalmente.
+\end{minipage}
+%======================================================================
+
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+\section*{\centering Sezione II}
+
+
+%======================================================================
+% ---------------------------------------------		card 6 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{Gesto}
+\updateBattentePosition{-.45}{-.3}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{0}
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 1 $\sim$ 10 s};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {};
+\gettikzxy{(amp)}{\ampx}{\ampy}
+\coordinate (nulla) at ($(\ampx-\cardRadius/4, \ampy)$);
+\coordinate (B) at ($(nulla) + (\cardRadius/2.5, \cardRadius/35)$);
+\coordinate (C) at ($(nulla) + (\cardRadius/2.5, -\cardRadius/35)$);
+\coordinate (f) at ($(\ampx+\cardRadius/4, \ampy)$);
+\node[draw=black, circle,  thin, inner sep=1pt] at (nulla) {};
+    \draw[thin] ($(nulla)+(.05,0)$) -- (B);  % Linea superiore del crescendo
+    \draw[thin] ($(nulla)+(.05,0)$) -- (C); % Linea inferiore del crescendo
+	\node at (f) {\normalsize \textit{f}};
+\draw[line width = .6] ($(Gesto) + (-.2, .3)$) --  ++(.4,.2);
+\draw[line width = .6] ($(Gesto) + (-.2, .4)$) --  ++(.4,.2);
+\draw[line width = .6] ($(Gesto) + (-.2, .5)$) --  ++(.4,.2);
+    \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify Ribattuto aritmico. Dal nulla con l'assenza del corpo della campana (percussione sul centro del battente, al limite del feltro). Crescita dinamica e accelerando che subiscono lievi fluttuazioni e brusche cesure. La coda del gesto prepara la risonanza per quello successivo.
+\end{minipage}
+%======================================================================
+
+
+
+%======================================================================
+% ---------------------------------------------		card 7 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+\campanaAccZ{0}{-.3}{.8}{libera}{Gesto}
+\updateBattentePosition{0}{.02}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{60}
+\strofinato{Gesto}{.8}{.1}{-1.45}{.4}
+ \node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 3 $\sim$ 9 s};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {};
+\gettikzxy{(amp)}{\ampx}{\ampy}
+\coordinate (mf) at ($(\ampx-\cardRadius/4, \ampy)$);
+\coordinate (B) at ($(mf) + (\cardRadius/2.5, \cardRadius/35)$);
+\coordinate (C) at ($(mf) + (\cardRadius/2.5, -\cardRadius/35)$);
+\coordinate (f) at ($(\ampx+\cardRadius/4, \ampy)$);
+\node at ($(mf)$) {\normalsize\textit{mf}};
+    \draw[thin] ($(mf)+(.3,0)$) -- (B);  % Linea superiore del crescendo
+    \draw[thin] ($(mf)+(.3,0)$) -- (C); % Linea inferiore del crescendo
+	\node at (f) {\normalsize \textit{ff}};
+   \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify Inizia sul tramono del gesto precedente. Variazione del tempo di smorzamento. Dopo il primo giro della partitura può essere ripetuto su se stesso frammentandolo in micro eventi. Il battente può essere usato per smorzare più o meno lievemente la risonanza del gesto precedente.
+\end{minipage}
+%======================================================================
+
+
+%======================================================================
+% ---------------------------------------------		card 8 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{Gesto}
+\updateBattentePosition{-.35}{.02}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{45}
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize eps $\sim$ 4 s};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf}};
+    \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify In sincope alla pulsazione generata del gesto precedente. Al variare della dinamica varia la coda di risonanza. Variare punto di percussione del battente, dal centro all'esterno di questo.
+\end{minipage}
+%======================================================================
+
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+\section*{\centering Sezione II}
+
+
+%======================================================================
+% ---------------------------------------------		card 9 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+\campana{0}{-.3}{.8}{ordinaria}{libera}{Gesto}
+\updateBattentePosition{0}{.02}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{60}
+\strofinato{Gesto}{.8}{.1}{-1.45}{.4}
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 4 $\sim$ 12 s};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {};
+\gettikzxy{(amp)}{\ampx}{\ampy}
+\coordinate (mf) at ($(\ampx-\cardRadius/4, \ampy)$);
+\coordinate (B) at ($(mf) + (\cardRadius/2.5, \cardRadius/35)$);
+\coordinate (C) at ($(mf) + (\cardRadius/2.5, -\cardRadius/35)$);
+\coordinate (sfz) at ($(\ampx+\cardRadius/3.5, \ampy)$);
+\node at ($(mf)$) {\normalsize \textit{mf}};
+    \draw[thin] ($(mf)+(.3,0)$) -- (B);  % Linea superiore del crescendo
+    \draw[thin] ($(mf)+(.3,0)$) -- (C); % Linea inferiore del crescendo
+	\node at (sfz) {\normalsize \textit{sfz}};
+    \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify Portare la campana a un livello di vibrazioni tale fino a causare un distacco involontario del battente dalla campana (generazione di micro impulsi durante la continuità dello strufoniato).
+\end{minipage}
+%======================================================================
+
+
+
+%======================================================================
+% ---------------------------------------------		card 10 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+\campanaAccZ{0}{-.3}{.8}{libera}{Gesto}
+\updateBattentePosition{0}{.23}
+\updateBattentePosition{-.45}{-.3}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{0}
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize eps $\sim$ 4 s};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mp} $\sim$ \textit{f}};
+    \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify (in relazione al successivo) -> variare la distanza tra le due azioni in base alla dinamica. Ricercare una rincorsa che non permetta di stabilire quale gesto sia proposta e quale risposta.
+\end{minipage}
+%======================================================================
+
+
+
+%======================================================================
+% ---------------------------------------------		card 11 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+\campanaAccZ{0}{-.3}{.8}{libera}{Gesto}
+\updateBattentePosition{-.35}{.02}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{bloccato}{45}
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize eps $\sim$ 3 s};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{p} $\sim$ \textit{ff}};
+    \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify (in relazione al precedente) -> variare la distanza tra le due azioni in base alla dinamica. Ricercare una rincorsa che non permetta di stabilire quale gesto sia proposta e quale risposta.
+\end{minipage}
+%======================================================================
+
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+\section*{\centering Finale}
+
+
+
+%======================================================================
+% ---------------------------------------------		card 12 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+	\cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+\campana{0}{-.3}{.8}{ordinaria}{bloccata}{Gesto}
+\updateBattentePosition{0.36}{-.4}
+\battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{80}
+\draw[line width = .8pt] ($(Gesto)+(-.7,+.085)$) -- ($(Gesto)+(+.7,+.085)$);
+\draw[->]   ($(Gesto)+(-.5,-.7)$) to[out=-30, in=200, looseness=1] ($(Gesto)+(.6,-.7)$);
+\campanaSbiadita{0}{-.3}{.8}{ordinaria}{bloccata}{Gesto}
+\node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize 10 $\sim$ 30 s};
+\node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{pp} $\sim$ \textit{p}};
+   \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify Gesto di connessione tra le sezioni, ma anche il conclusivo. Il brano finisce tornando verso il centro della partitura. Grattato contro la parte interna.
+
+\end{minipage}
+%======================================================================
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+

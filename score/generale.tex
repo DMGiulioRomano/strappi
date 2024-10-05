@@ -1,0 +1,187 @@
+
+
+\documentclass{book}
+\usepackage{newpxtext}
+\usepackage{newpxmath}
+\usepackage[a3paper, left=3cm, right=3cm, top=3cm, bottom=2cm]{geometry}  % Imposta i margini
+\usepackage{fontspec}
+\usepackage{hyperref}  
+\usepackage{fancyhdr} % Pacchetto per la gestione del piè di pagina
+
+ \usepackage[utf8]{inputenc}  
+\catcode`\|12
+% -----------------------------
+\usepackage{comandi}
+\usepackage{wrapfig}
+% -----------------------------
+\usetikzlibrary{calc}
+\usetikzlibrary{intersections}
+% -----------------------------
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary {decorations.text}
+\usetikzlibrary { decorations.pathmorphing, decorations.pathreplacing, decorations.shapes}
+\usetikzlibrary{matrix}
+\usetikzlibrary {quotes} 
+ \usepackage{pgf}
+\usepackage{ragged2e}  % Pacchetto per giustificare il testo
+\pagestyle{empty}
+\usepackage{parskip}  % Rimuove il rientro dei paragrafi e gestisce lo spazio verticale
+\usepackage{qrcode} % Carica il pacchetto qrcode
+
+
+
+
+
+\fancyfoot[R]{%
+    \begin{tikzpicture}
+%======================================================================
+% -----------------------------	definizione Licence ----------------------------------------------------------------
+% 
+\node at (-3,0) {\includegraphics[width=.8cm]{CC-license/cc.pdf}};  % Logo CC
+\node at (-2,0) {\includegraphics[width=.8cm]{CC-license/by.pdf}};  % Logo BY
+\node at (-1,0) {\includegraphics[width=.8cm]{CC-license/nc.pdf}};  % Logo NC
+\node at (0,0) {\includegraphics[width=.8cm]{CC-license/nd.pdf}};  % Logo ND
+%======================================================================
+    \end{tikzpicture}
+}
+
+
+
+
+\begin{document}
+
+%======================================================================
+% Posizionamento delle carte in cerchio
+\def\circleRadius{11cm}  % Regola questo valore in base alle tue esigenze
+\def\numCards{11}  % Numero di carte nel cerchio principale
+\def\angleOffset{30}  % Offset angolare per ruotare l'intero layout
+% ------------------
+\def\pointWidth{3pt}
+% ------------------
+\def\minimumSize{1.5pt}
+% ------------------
+\def\arrowWidth{6pt}
+\def\arrowLength{9pt}
+\def\sumWidth{1pt}
+\def\lineWidthMore{3pt}
+\def\lineWidthMedium{\lineWidthMore-1.5}
+\def\lineWidth{\lineWidthMore-2.5pt}
+\def\arrowWidthMore{9pt}
+\def\arrowLengthMore{12pt}
+\def\sumWidthMore{3pt}
+\def\roundedCorners{8pt}
+% ------------------
+\def\cardRadius{2.1cm} 
+\def\cardRadiusTwo{\cardRadius + .5cm} 
+% ------------------
+\def\battenteheight{.25}
+\def\battentewidth{1.3}
+%======================================================================
+
+
+
+
+Il brano ha una durata di 8 minuti e si conclude con il gesto centrale.
+Esistono due forze contrapposte che agiscono sul flusso musicale: una forza centripeta che lo spinge verso il centro, rappresentato dal gesto conclusivo, e una forza centrifuga che lo spinge verso la periferia della circonferenza.
+La catena di retroazione che va dall'ottavo al sesto gesto si colloca al di fuori della circonferenza, ed è percorribile solo a partire dal secondo giro.
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+
+%======================================================================
+% ---------------------------------------------		card 1 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \coordinate (Gesto) at (0,0);
+        \cardtwo{0}{0}{\cardRadius}{Gesto}{\cardRadiusTwo}
+        \campana{0}{-.3}{.8}{ordinaria}{libera}{Gesto}
+        \updateBattentePosition{-.35}{.02}
+        \battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth}{\battenteheight}{libero}{45}
+        \node (dur) at ($(Gesto) + ({\cardRadius*cos(90)},{\cardRadius*sin(50)})$) {\normalsize \textit{epsylon}};
+        \node (amp) at ($(Gesto) + ({\cardRadius*cos(90)},{-\cardRadius*sin(40)})$) {\normalsize \textit{mf} $\sim$ \textit{ff}};
+        
+            \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify  Ogni gesto è racchiuso da una circonferenza tratteggiata, all'interno della quale sono indicati un intervallo di durata e un range dinamico.
+Il termine \textit{epsylon} rappresenta il più piccolo intervallo temporale necessario per l'esecuzione del gesto.
+\end{minipage}
+%======================================================================
+
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+
+
+
+%======================================================================
+% ---------------------------------------------		card 2 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}
+        % Disegno TikZ
+        \def\radius{1.6cm}
+        \coordinate (Gesto) at (0,0);
+        \circleAroundReversed{0}{0}{\cardRadius-.5}{Gesto}{\cardRadius}{1}{0}{\lineWidthMore}        
+        \circleAroundReversed{0}{0}{\cardRadius-.5}{Gesto}{\cardRadius}{1}{0}{\lineWidthMore}
+        \cardtwo{0}{0}{\radius}{Gesto2}{\cardRadius}
+        \campana{0}{-.3}{.6}{ordinaria}{libera}{Gesto2}
+        \updateBattentePosition{-.25}{-0.03}
+        \battente{Gesto}{\battenteStartX}{\battenteStartY}{\battentewidth*.75}{\battenteheight*.75}{libero}{45}
+        \node (dur) at ($(Gesto2) + ({\radius*cos(90)},{\radius*sin(50)})$) {\normalsize \textit{epsylon}};
+        \node (amp) at ($(Gesto2) + ({\radius*cos(90)},{-\radius*sin(40)})$) {\normalsize \textit{mf} $\sim$ \textit{ff}};
+            \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify I gesti sono interconnessi tramite percorsi rappresentati da frecce, che indicano la direzione del flusso. Lo spessore delle linee differenzia i percorsi in base alla loro percorribilità: quelli con linee più spesse rappresentano le traiettorie che vengono percorse più frequentemente.
+\end{minipage}
+%======================================================================
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+
+
+%======================================================================
+% ---------------------------------------------		card 3 	-------------------------------------------------------
+\begin{minipage}{0.2\textwidth}
+    \begin{tikzpicture}        
+        \draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and 1 step 10mm with {\arrow[scale=1.3]{stealth}}}] {(-\cardRadius,\cardRadius) -- (\cardRadius,\cardRadius)};
+        \draw[line width = \lineWidthMore] (-\cardRadius,\cardRadius) -- (\cardRadius,\cardRadius);
+        
+        \draw[line width = \lineWidthMore] decorate[decoration={markings, mark=between positions 0.3 and 1 step 10mm with {\arrow[scale=1.3]{stealth}}}] {(-\cardRadius,\cardRadius/2) -- (\cardRadius,\cardRadius/2)};
+        \draw[line width = \lineWidthMedium] (-\cardRadius,\cardRadius/2) -- (\cardRadius,\cardRadius/2);
+        
+        \draw[line width = \lineWidth] decorate[decoration={markings, mark=between positions 0.3 and 1 step 10mm with {\arrow[scale=1.2]{stealth}}}] {(-\cardRadius,0) -- (\cardRadius,0)};
+        \draw[line width = \lineWidth] (-\cardRadius,0) -- (\cardRadius,0);
+            \end{tikzpicture}
+\end{minipage}%
+\begin{minipage}{0.6\textwidth}
+\justify Il flusso complessivo è simile a quello di un circuito di un filtro, in cui alcuni rami di \textit{feedback} presentano frecce orientate in senso opposto rispetto al flusso temporale del brano.
+I percorsi segnati da linee più spesse vanno attraversati un maggior numero di volte, variando progressivamente il gesto e simulando il meccanismo di feedback.
+I rami che ruotano attorno ai gesti sono anch'essi dei rami di feedback.\end{minipage}
+%======================================================================
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+
+Il sistema di live electronics reagisce alle articolazioni timbriche del percussionista, ma è formalmente gestito dall’interprete tramite cinque fader di guadagno che regolano l’ingresso degli algoritmi. Gli algoritmi in uso sono vocoder che analizzano e sintetizzano lo spettro della campana, traslandolo su differenti altezze. L’interprete ha la possibilità di scegliere quali vocoder suonare nelle sezioni, tenendo presente che quelli che operano sulle frequenze più gravi reagiscono meglio a tecniche di strofinato, mentre quelli che operano sulle frequenze più acute rispondono più efficacemente ai gesti impulsivi.
+Il sorgente dell'algoritmo è reperibile presso \href{https://github.com/DMGiulioRomano/strappi}{questo link} o nel seguente QRcode.
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+
+\null
+\quad  % Aggiunge uno spazio fisso tra i minipage
+
+\begin{center}
+\qrcode[height=5cm]{https://github.com/DMGiulioRomano/strappi}
+\end{center}
+
+
+\end{document}
