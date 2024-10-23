@@ -1,0 +1,10 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{qrcode} % Carica il pacchetto qrcode
+\usepackage{tikz}
+
+\begin{document}
+\begin{tikzpicture}
+\draw[opacity=0] (0,-2.5) rectangle ++(5,5);
+\qrcode[height=2in,link,level=Q]{https://gitlab.com/GiulioDeMattia/midside}
+\end{tikzpicture}
+\end{document}
